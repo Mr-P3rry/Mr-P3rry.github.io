@@ -1,0 +1,2797 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+       <!-- map--> 
+        
+        <script src="ammap/ammap.js" type="text/javascript"></script>
+        
+		<script src="ammap/maps/js/worldLow.js" type="text/javascript"></script>
+		<script src="ammap/themes/black.js" type="text/javascript"></script>
+        <script>
+			/*
+			        		although ammap has methos like getAreaCenterLatitude and getAreaCenterLongitude,
+			        		they are not suitable in quite a lot of cases as the center of some countries
+			        		is even outside the country itself (like US, because of Alaska and Hawaii)
+			        		That's why wehave the coordinates stored here
+			        	*/
+
+			var latlong = {};
+			latlong["AD"] = {
+				"latitude": 42.5,
+				"longitude": 1.5
+			};
+			latlong["AE"] = {
+				"latitude": 24,
+				"longitude": 54
+			};
+			latlong["AF"] = {
+				"latitude": 33,
+				"longitude": 65
+			};
+			latlong["AG"] = {
+				"latitude": 17.05,
+				"longitude": -61.8
+			};
+			latlong["AI"] = {
+				"latitude": 18.25,
+				"longitude": -63.1667
+			};
+			latlong["AL"] = {
+				"latitude": 41,
+				"longitude": 20
+			};
+			latlong["AM"] = {
+				"latitude": 40,
+				"longitude": 45
+			};
+			latlong["AN"] = {
+				"latitude": 12.25,
+				"longitude": -68.75
+			};
+			latlong["AO"] = {
+				"latitude": -12.5,
+				"longitude": 18.5
+			};
+			latlong["AP"] = {
+				"latitude": 35,
+				"longitude": 105
+			};
+			latlong["AQ"] = {
+				"latitude": -90,
+				"longitude": 0
+			};
+			latlong["AR"] = {
+				"latitude": -34,
+				"longitude": -64
+			};
+			latlong["AS"] = {
+				"latitude": -14.3333,
+				"longitude": -170
+			};
+			latlong["AT"] = {
+				"latitude": 47.3333,
+				"longitude": 13.3333
+			};
+			latlong["AU"] = {
+				"latitude": -27,
+				"longitude": 133
+			};
+			latlong["AW"] = {
+				"latitude": 12.5,
+				"longitude": -69.9667
+			};
+			latlong["AZ"] = {
+				"latitude": 40.5,
+				"longitude": 47.5
+			};
+			latlong["BA"] = {
+				"latitude": 44,
+				"longitude": 18
+			};
+			latlong["BB"] = {
+				"latitude": 13.1667,
+				"longitude": -59.5333
+			};
+			latlong["BD"] = {
+				"latitude": 24,
+				"longitude": 90
+			};
+			latlong["BE"] = {
+				"latitude": 50.8333,
+				"longitude": 4
+			};
+			latlong["BF"] = {
+				"latitude": 13,
+				"longitude": -2
+			};
+			latlong["BG"] = {
+				"latitude": 43,
+				"longitude": 25
+			};
+			latlong["BH"] = {
+				"latitude": 26,
+				"longitude": 50.55
+			};
+			latlong["BI"] = {
+				"latitude": -3.5,
+				"longitude": 30
+			};
+			latlong["BJ"] = {
+				"latitude": 9.5,
+				"longitude": 2.25
+			};
+			latlong["BM"] = {
+				"latitude": 32.3333,
+				"longitude": -64.75
+			};
+			latlong["BN"] = {
+				"latitude": 4.5,
+				"longitude": 114.6667
+			};
+			latlong["BO"] = {
+				"latitude": -17,
+				"longitude": -65
+			};
+			latlong["BR"] = {
+				"latitude": -10,
+				"longitude": -55
+			};
+			latlong["BS"] = {
+				"latitude": 24.25,
+				"longitude": -76
+			};
+			latlong["BT"] = {
+				"latitude": 27.5,
+				"longitude": 90.5
+			};
+			latlong["BV"] = {
+				"latitude": -54.4333,
+				"longitude": 3.4
+			};
+			latlong["BW"] = {
+				"latitude": -22,
+				"longitude": 24
+			};
+			latlong["BY"] = {
+				"latitude": 53,
+				"longitude": 28
+			};
+			latlong["BZ"] = {
+				"latitude": 17.25,
+				"longitude": -88.75
+			};
+			latlong["CA"] = {
+				"latitude": 54,
+				"longitude": -100
+			};
+			latlong["CC"] = {
+				"latitude": -12.5,
+				"longitude": 96.8333
+			};
+			latlong["CD"] = {
+				"latitude": 0,
+				"longitude": 25
+			};
+			latlong["CF"] = {
+				"latitude": 7,
+				"longitude": 21
+			};
+			latlong["CG"] = {
+				"latitude": -1,
+				"longitude": 15
+			};
+			latlong["CH"] = {
+				"latitude": 47,
+				"longitude": 8
+			};
+			latlong["CI"] = {
+				"latitude": 8,
+				"longitude": -5
+			};
+			latlong["CK"] = {
+				"latitude": -21.2333,
+				"longitude": -159.7667
+			};
+			latlong["CL"] = {
+				"latitude": -30,
+				"longitude": -71
+			};
+			latlong["CM"] = {
+				"latitude": 6,
+				"longitude": 12
+			};
+			latlong["CN"] = {
+				"latitude": 35,
+				"longitude": 105
+			};
+			latlong["CO"] = {
+				"latitude": 4,
+				"longitude": -72
+			};
+			latlong["CR"] = {
+				"latitude": 10,
+				"longitude": -84
+			};
+			latlong["CU"] = {
+				"latitude": 21.5,
+				"longitude": -80
+			};
+			latlong["CV"] = {
+				"latitude": 16,
+				"longitude": -24
+			};
+			latlong["CX"] = {
+				"latitude": -10.5,
+				"longitude": 105.6667
+			};
+			latlong["CY"] = {
+				"latitude": 35,
+				"longitude": 33
+			};
+			latlong["CZ"] = {
+				"latitude": 49.75,
+				"longitude": 15.5
+			};
+			latlong["DE"] = {
+				"latitude": 51,
+				"longitude": 9
+			};
+			latlong["DJ"] = {
+				"latitude": 11.5,
+				"longitude": 43
+			};
+			latlong["DK"] = {
+				"latitude": 56,
+				"longitude": 10
+			};
+			latlong["DM"] = {
+				"latitude": 15.4167,
+				"longitude": -61.3333
+			};
+			latlong["DO"] = {
+				"latitude": 19,
+				"longitude": -70.6667
+			};
+			latlong["DZ"] = {
+				"latitude": 28,
+				"longitude": 3
+			};
+			latlong["EC"] = {
+				"latitude": -2,
+				"longitude": -77.5
+			};
+			latlong["EE"] = {
+				"latitude": 59,
+				"longitude": 26
+			};
+			latlong["EG"] = {
+				"latitude": 27,
+				"longitude": 30
+			};
+			latlong["EH"] = {
+				"latitude": 24.5,
+				"longitude": -13
+			};
+			latlong["ER"] = {
+				"latitude": 15,
+				"longitude": 39
+			};
+			latlong["ES"] = {
+				"latitude": 40,
+				"longitude": -4
+			};
+			latlong["ET"] = {
+				"latitude": 8,
+				"longitude": 38
+			};
+			latlong["EU"] = {
+				"latitude": 47,
+				"longitude": 8
+			};
+			latlong["FI"] = {
+				"latitude": 62,
+				"longitude": 26
+			};
+			latlong["FJ"] = {
+				"latitude": -18,
+				"longitude": 175
+			};
+			latlong["FK"] = {
+				"latitude": -51.75,
+				"longitude": -59
+			};
+			latlong["FM"] = {
+				"latitude": 6.9167,
+				"longitude": 158.25
+			};
+			latlong["FO"] = {
+				"latitude": 62,
+				"longitude": -7
+			};
+			latlong["FR"] = {
+				"latitude": 46,
+				"longitude": 2
+			};
+			latlong["GA"] = {
+				"latitude": -1,
+				"longitude": 11.75
+			};
+			latlong["GB"] = {
+				"latitude": 54,
+				"longitude": -2
+			};
+			latlong["GD"] = {
+				"latitude": 12.1167,
+				"longitude": -61.6667
+			};
+			latlong["GE"] = {
+				"latitude": 42,
+				"longitude": 43.5
+			};
+			latlong["GF"] = {
+				"latitude": 4,
+				"longitude": -53
+			};
+			latlong["GH"] = {
+				"latitude": 8,
+				"longitude": -2
+			};
+			latlong["GI"] = {
+				"latitude": 36.1833,
+				"longitude": -5.3667
+			};
+			latlong["GL"] = {
+				"latitude": 72,
+				"longitude": -40
+			};
+			latlong["GM"] = {
+				"latitude": 13.4667,
+				"longitude": -16.5667
+			};
+			latlong["GN"] = {
+				"latitude": 11,
+				"longitude": -10
+			};
+			latlong["GP"] = {
+				"latitude": 16.25,
+				"longitude": -61.5833
+			};
+			latlong["GQ"] = {
+				"latitude": 2,
+				"longitude": 10
+			};
+			latlong["GR"] = {
+				"latitude": 39,
+				"longitude": 22
+			};
+			latlong["GS"] = {
+				"latitude": -54.5,
+				"longitude": -37
+			};
+			latlong["GT"] = {
+				"latitude": 15.5,
+				"longitude": -90.25
+			};
+			latlong["GU"] = {
+				"latitude": 13.4667,
+				"longitude": 144.7833
+			};
+			latlong["GW"] = {
+				"latitude": 12,
+				"longitude": -15
+			};
+			latlong["GY"] = {
+				"latitude": 5,
+				"longitude": -59
+			};
+			latlong["HK"] = {
+				"latitude": 22.25,
+				"longitude": 114.1667
+			};
+			latlong["HM"] = {
+				"latitude": -53.1,
+				"longitude": 72.5167
+			};
+			latlong["HN"] = {
+				"latitude": 15,
+				"longitude": -86.5
+			};
+			latlong["HR"] = {
+				"latitude": 45.1667,
+				"longitude": 15.5
+			};
+			latlong["HT"] = {
+				"latitude": 19,
+				"longitude": -72.4167
+			};
+			latlong["HU"] = {
+				"latitude": 47,
+				"longitude": 20
+			};
+			latlong["ID"] = {
+				"latitude": -5,
+				"longitude": 120
+			};
+			latlong["IE"] = {
+				"latitude": 53,
+				"longitude": -8
+			};
+			latlong["IL"] = {
+				"latitude": 31.5,
+				"longitude": 34.75
+			};
+			latlong["IN"] = {
+				"latitude": 20,
+				"longitude": 77
+			};
+			latlong["IO"] = {
+				"latitude": -6,
+				"longitude": 71.5
+			};
+			latlong["IQ"] = {
+				"latitude": 33,
+				"longitude": 44
+			};
+			latlong["IR"] = {
+				"latitude": 32,
+				"longitude": 53
+			};
+			latlong["IS"] = {
+				"latitude": 65,
+				"longitude": -18
+			};
+			latlong["IT"] = {
+				"latitude": 42.8333,
+				"longitude": 12.8333
+			};
+			latlong["JM"] = {
+				"latitude": 18.25,
+				"longitude": -77.5
+			};
+			latlong["JO"] = {
+				"latitude": 31,
+				"longitude": 36
+			};
+			latlong["JP"] = {
+				"latitude": 36,
+				"longitude": 138
+			};
+			latlong["KE"] = {
+				"latitude": 1,
+				"longitude": 38
+			};
+			latlong["KG"] = {
+				"latitude": 41,
+				"longitude": 75
+			};
+			latlong["KH"] = {
+				"latitude": 13,
+				"longitude": 105
+			};
+			latlong["KI"] = {
+				"latitude": 1.4167,
+				"longitude": 173
+			};
+			latlong["KM"] = {
+				"latitude": -12.1667,
+				"longitude": 44.25
+			};
+			latlong["KN"] = {
+				"latitude": 17.3333,
+				"longitude": -62.75
+			};
+			latlong["KP"] = {
+				"latitude": 40,
+				"longitude": 127
+			};
+			latlong["KR"] = {
+				"latitude": 37,
+				"longitude": 127.5
+			};
+			latlong["KW"] = {
+				"latitude": 29.3375,
+				"longitude": 47.6581
+			};
+			latlong["KY"] = {
+				"latitude": 19.5,
+				"longitude": -80.5
+			};
+			latlong["KZ"] = {
+				"latitude": 48,
+				"longitude": 68
+			};
+			latlong["LA"] = {
+				"latitude": 18,
+				"longitude": 105
+			};
+			latlong["LB"] = {
+				"latitude": 33.8333,
+				"longitude": 35.8333
+			};
+			latlong["LC"] = {
+				"latitude": 13.8833,
+				"longitude": -61.1333
+			};
+			latlong["LI"] = {
+				"latitude": 47.1667,
+				"longitude": 9.5333
+			};
+			latlong["LK"] = {
+				"latitude": 7,
+				"longitude": 81
+			};
+			latlong["LR"] = {
+				"latitude": 6.5,
+				"longitude": -9.5
+			};
+			latlong["LS"] = {
+				"latitude": -29.5,
+				"longitude": 28.5
+			};
+			latlong["LT"] = {
+				"latitude": 55,
+				"longitude": 24
+			};
+			latlong["LU"] = {
+				"latitude": 49.75,
+				"longitude": 6
+			};
+			latlong["LV"] = {
+				"latitude": 57,
+				"longitude": 25
+			};
+			latlong["LY"] = {
+				"latitude": 25,
+				"longitude": 17
+			};
+			latlong["MA"] = {
+				"latitude": 32,
+				"longitude": -5
+			};
+			latlong["MC"] = {
+				"latitude": 43.7333,
+				"longitude": 7.4
+			};
+			latlong["MD"] = {
+				"latitude": 47,
+				"longitude": 29
+			};
+			latlong["ME"] = {
+				"latitude": 42.5,
+				"longitude": 19.4
+			};
+			latlong["MG"] = {
+				"latitude": -20,
+				"longitude": 47
+			};
+			latlong["MH"] = {
+				"latitude": 9,
+				"longitude": 168
+			};
+			latlong["MK"] = {
+				"latitude": 41.8333,
+				"longitude": 22
+			};
+			latlong["ML"] = {
+				"latitude": 17,
+				"longitude": -4
+			};
+			latlong["MM"] = {
+				"latitude": 22,
+				"longitude": 98
+			};
+			latlong["MN"] = {
+				"latitude": 46,
+				"longitude": 105
+			};
+			latlong["MO"] = {
+				"latitude": 22.1667,
+				"longitude": 113.55
+			};
+			latlong["MP"] = {
+				"latitude": 15.2,
+				"longitude": 145.75
+			};
+			latlong["MQ"] = {
+				"latitude": 14.6667,
+				"longitude": -61
+			};
+			latlong["MR"] = {
+				"latitude": 20,
+				"longitude": -12
+			};
+			latlong["MS"] = {
+				"latitude": 16.75,
+				"longitude": -62.2
+			};
+			latlong["MT"] = {
+				"latitude": 35.8333,
+				"longitude": 14.5833
+			};
+			latlong["MU"] = {
+				"latitude": -20.2833,
+				"longitude": 57.55
+			};
+			latlong["MV"] = {
+				"latitude": 3.25,
+				"longitude": 73
+			};
+			latlong["MW"] = {
+				"latitude": -13.5,
+				"longitude": 34
+			};
+			latlong["MX"] = {
+				"latitude": 23,
+				"longitude": -102
+			};
+			latlong["MY"] = {
+				"latitude": 2.5,
+				"longitude": 112.5
+			};
+			latlong["MZ"] = {
+				"latitude": -18.25,
+				"longitude": 35
+			};
+			latlong["NA"] = {
+				"latitude": -22,
+				"longitude": 17
+			};
+			latlong["NC"] = {
+				"latitude": -21.5,
+				"longitude": 165.5
+			};
+			latlong["NE"] = {
+				"latitude": 16,
+				"longitude": 8
+			};
+			latlong["NF"] = {
+				"latitude": -29.0333,
+				"longitude": 167.95
+			};
+			latlong["NG"] = {
+				"latitude": 10,
+				"longitude": 8
+			};
+			latlong["NI"] = {
+				"latitude": 13,
+				"longitude": -85
+			};
+			latlong["NL"] = {
+				"latitude": 52.5,
+				"longitude": 5.75
+			};
+			latlong["NO"] = {
+				"latitude": 62,
+				"longitude": 10
+			};
+			latlong["NP"] = {
+				"latitude": 28,
+				"longitude": 84
+			};
+			latlong["NR"] = {
+				"latitude": -0.5333,
+				"longitude": 166.9167
+			};
+			latlong["NU"] = {
+				"latitude": -19.0333,
+				"longitude": -169.8667
+			};
+			latlong["NZ"] = {
+				"latitude": -41,
+				"longitude": 174
+			};
+			latlong["OM"] = {
+				"latitude": 21,
+				"longitude": 57
+			};
+			latlong["PA"] = {
+				"latitude": 9,
+				"longitude": -80
+			};
+			latlong["PE"] = {
+				"latitude": -10,
+				"longitude": -76
+			};
+			latlong["PF"] = {
+				"latitude": -15,
+				"longitude": -140
+			};
+			latlong["PG"] = {
+				"latitude": -6,
+				"longitude": 147
+			};
+			latlong["PH"] = {
+				"latitude": 13,
+				"longitude": 122
+			};
+			latlong["PK"] = {
+				"latitude": 30,
+				"longitude": 70
+			};
+			latlong["PL"] = {
+				"latitude": 52,
+				"longitude": 20
+			};
+			latlong["PM"] = {
+				"latitude": 46.8333,
+				"longitude": -56.3333
+			};
+			latlong["PR"] = {
+				"latitude": 18.25,
+				"longitude": -66.5
+			};
+			latlong["PS"] = {
+				"latitude": 32,
+				"longitude": 35.25
+			};
+			latlong["PT"] = {
+				"latitude": 39.5,
+				"longitude": -8
+			};
+			latlong["PW"] = {
+				"latitude": 7.5,
+				"longitude": 134.5
+			};
+			latlong["PY"] = {
+				"latitude": -23,
+				"longitude": -58
+			};
+			latlong["QA"] = {
+				"latitude": 25.5,
+				"longitude": 51.25
+			};
+			latlong["RE"] = {
+				"latitude": -21.1,
+				"longitude": 55.6
+			};
+			latlong["RO"] = {
+				"latitude": 46,
+				"longitude": 25
+			};
+			latlong["RS"] = {
+				"latitude": 44,
+				"longitude": 21
+			};
+			latlong["RU"] = {
+				"latitude": 60,
+				"longitude": 100
+			};
+			latlong["RW"] = {
+				"latitude": -2,
+				"longitude": 30
+			};
+			latlong["SA"] = {
+				"latitude": 25,
+				"longitude": 45
+			};
+			latlong["SB"] = {
+				"latitude": -8,
+				"longitude": 159
+			};
+			latlong["SC"] = {
+				"latitude": -4.5833,
+				"longitude": 55.6667
+			};
+			latlong["SD"] = {
+				"latitude": 15,
+				"longitude": 30
+			};
+			latlong["SE"] = {
+				"latitude": 62,
+				"longitude": 15
+			};
+			latlong["SG"] = {
+				"latitude": 1.3667,
+				"longitude": 103.8
+			};
+			latlong["SH"] = {
+				"latitude": -15.9333,
+				"longitude": -5.7
+			};
+			latlong["SI"] = {
+				"latitude": 46,
+				"longitude": 15
+			};
+			latlong["SJ"] = {
+				"latitude": 78,
+				"longitude": 20
+			};
+			latlong["SK"] = {
+				"latitude": 48.6667,
+				"longitude": 19.5
+			};
+			latlong["SL"] = {
+				"latitude": 8.5,
+				"longitude": -11.5
+			};
+			latlong["SM"] = {
+				"latitude": 43.7667,
+				"longitude": 12.4167
+			};
+			latlong["SN"] = {
+				"latitude": 14,
+				"longitude": -14
+			};
+			latlong["SO"] = {
+				"latitude": 10,
+				"longitude": 49
+			};
+			latlong["SR"] = {
+				"latitude": 4,
+				"longitude": -56
+			};
+			latlong["ST"] = {
+				"latitude": 1,
+				"longitude": 7
+			};
+			latlong["SV"] = {
+				"latitude": 13.8333,
+				"longitude": -88.9167
+			};
+			latlong["SY"] = {
+				"latitude": 35,
+				"longitude": 38
+			};
+			latlong["SZ"] = {
+				"latitude": -26.5,
+				"longitude": 31.5
+			};
+			latlong["TC"] = {
+				"latitude": 21.75,
+				"longitude": -71.5833
+			};
+			latlong["TD"] = {
+				"latitude": 15,
+				"longitude": 19
+			};
+			latlong["TF"] = {
+				"latitude": -43,
+				"longitude": 67
+			};
+			latlong["TG"] = {
+				"latitude": 8,
+				"longitude": 1.1667
+			};
+			latlong["TH"] = {
+				"latitude": 15,
+				"longitude": 100
+			};
+			latlong["TJ"] = {
+				"latitude": 39,
+				"longitude": 71
+			};
+			latlong["TK"] = {
+				"latitude": -9,
+				"longitude": -172
+			};
+			latlong["TM"] = {
+				"latitude": 40,
+				"longitude": 60
+			};
+			latlong["TN"] = {
+				"latitude": 34,
+				"longitude": 9
+			};
+			latlong["TO"] = {
+				"latitude": -20,
+				"longitude": -175
+			};
+			latlong["TR"] = {
+				"latitude": 39,
+				"longitude": 35
+			};
+			latlong["TT"] = {
+				"latitude": 11,
+				"longitude": -61
+			};
+			latlong["TV"] = {
+				"latitude": -8,
+				"longitude": 178
+			};
+			latlong["TW"] = {
+				"latitude": 23.5,
+				"longitude": 121
+			};
+			latlong["TZ"] = {
+				"latitude": -6,
+				"longitude": 35
+			};
+			latlong["UA"] = {
+				"latitude": 49,
+				"longitude": 32
+			};
+			latlong["UG"] = {
+				"latitude": 1,
+				"longitude": 32
+			};
+			latlong["UM"] = {
+				"latitude": 19.2833,
+				"longitude": 166.6
+			};
+			latlong["US"] = {
+				"latitude": 38,
+				"longitude": -97
+			};
+			latlong["UY"] = {
+				"latitude": -33,
+				"longitude": -56
+			};
+			latlong["UZ"] = {
+				"latitude": 41,
+				"longitude": 64
+			};
+			latlong["VA"] = {
+				"latitude": 41.9,
+				"longitude": 12.45
+			};
+			latlong["VC"] = {
+				"latitude": 13.25,
+				"longitude": -61.2
+			};
+			latlong["VE"] = {
+				"latitude": 8,
+				"longitude": -66
+			};
+			latlong["VG"] = {
+				"latitude": 18.5,
+				"longitude": -64.5
+			};
+			latlong["VI"] = {
+				"latitude": 18.3333,
+				"longitude": -64.8333
+			};
+			latlong["VN"] = {
+				"latitude": 16,
+				"longitude": 106
+			};
+			latlong["VU"] = {
+				"latitude": -16,
+				"longitude": 167
+			};
+			latlong["WF"] = {
+				"latitude": -13.3,
+				"longitude": -176.2
+			};
+			latlong["WS"] = {
+				"latitude": -13.5833,
+				"longitude": -172.3333
+			};
+			latlong["YE"] = {
+				"latitude": 15,
+				"longitude": 48
+			};
+			latlong["YT"] = {
+				"latitude": -12.8333,
+				"longitude": 45.1667
+			};
+			latlong["ZA"] = {
+				"latitude": -29,
+				"longitude": 24
+			};
+			latlong["ZM"] = {
+				"latitude": -15,
+				"longitude": 30
+			};
+			latlong["ZW"] = {
+				"latitude": -20,
+				"longitude": 30
+			};
+
+			var mapData = [{
+				"code": "AF",
+				"name": "Afghanistan",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "AL",
+				"name": "Albania",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "DZ",
+				"name": "Algeria",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "AO",
+				"name": "Angola",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "AR",
+				"name": "Argentina",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "AM",
+				"name": "Armenia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "AU",
+				"name": "Australia",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "AT",
+				"name": "Austria",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "AZ",
+				"name": "Azerbaijan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "BH",
+				"name": "Bahrain",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "BD",
+				"name": "Bangladesh",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "BY",
+				"name": "Belarus",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "BE",
+				"name": "Belgium",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "BJ",
+				"name": "Benin",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "BT",
+				"name": "Bhutan",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "BO",
+				"name": "Bolivia",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "BA",
+				"name": "Bosnia and Herzegovina",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "BW",
+				"name": "Botswana",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "BR",
+				"name": "Brazil",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "BN",
+				"name": "Brunei",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "BG",
+				"name": "Bulgaria",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "BF",
+				"name": "Burkina Faso",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "BI",
+				"name": "Burundi",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "KH",
+				"name": "Cambodia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "CM",
+				"name": "Cameroon",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "CA",
+				"name": "Canada",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "CV",
+				"name": "Cape Verde",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "CF",
+				"name": "Central African Rep.",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "TD",
+				"name": "Chad",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "CL",
+				"name": "Chile",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "CN",
+				"name": "China",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "CO",
+				"name": "Colombia",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "KM",
+				"name": "Comoros",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "CD",
+				"name": "Congo, Dem. Rep.",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "CG",
+				"name": "Congo, Rep.",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "CR",
+				"name": "Costa Rica",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "CI",
+				"name": "Cote d'Ivoire",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "HR",
+				"name": "Croatia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "CU",
+				"name": "Cuba",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "CY",
+				"name": "Cyprus",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "CZ",
+				"name": "Czech Rep.",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "DK",
+				"name": "Denmark",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "DJ",
+				"name": "Djibouti",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "DO",
+				"name": "Dominican Rep.",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "EC",
+				"name": "Ecuador",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "EG",
+				"name": "Egypt",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "SV",
+				"name": "El Salvador",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "GQ",
+				"name": "Equatorial Guinea",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "ER",
+				"name": "Eritrea",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "EE",
+				"name": "Estonia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "ET",
+				"name": "Ethiopia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "FJ",
+				"name": "Fiji",
+				"value": 50000,
+				"color": "#8aabb0"
+			}, {
+				"code": "FI",
+				"name": "Finland",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "FR",
+				"name": "France",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "GA",
+				"name": "Gabon",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "GM",
+				"name": "Gambia",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "GE",
+				"name": "Georgia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "DE",
+				"name": "Germany",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "GH",
+				"name": "Ghana",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "GR",
+				"name": "Greece",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "GT",
+				"name": "Guatemala",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "GN",
+				"name": "Guinea",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "GW",
+				"name": "Guinea-Bissau",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "GY",
+				"name": "Guyana",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "HT",
+				"name": "Haiti",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "HN",
+				"name": "Honduras",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "HK",
+				"name": "Hong Kong, China",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "HU",
+				"name": "Hungary",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "IS",
+				"name": "Iceland",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "IN",
+				"name": "India",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "ID",
+				"name": "Indonesia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "IR",
+				"name": "Iran",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "IQ",
+				"name": "Iraq",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "IE",
+				"name": "Ireland",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "IL",
+				"name": "Israel",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "IT",
+				"name": "Italia",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "JM",
+				"name": "Jamaica",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "JP",
+				"name": "Japan",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "JO",
+				"name": "Jordan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "KZ",
+				"name": "Kazakhstan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "KE",
+				"name": "Kenya",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "KR",
+				"name": "Korea, Dem. Rep.",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "KP",
+				"name": "Korea, Rep.",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "KW",
+				"name": "Kuwait",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "KG",
+				"name": "Kyrgyzstan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "LA",
+				"name": "Laos",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "LV",
+				"name": "Latvia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "LB",
+				"name": "Lebanon",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "LS",
+				"name": "Lesotho",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "LR",
+				"name": "Liberia",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "LY",
+				"name": "Libya",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "LT",
+				"name": "Lithuania",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "LU",
+				"name": "Luxembourg",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "MK",
+				"name": "Macedonia, FYR",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "MG",
+				"name": "Madagascar",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MW",
+				"name": "Malawi",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MY",
+				"name": "Malaysia",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "ML",
+				"name": "Mali",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MR",
+				"name": "Mauritania",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MU",
+				"name": "Mauritius",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MX",
+				"name": "Mexico",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "MD",
+				"name": "Moldova",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "MN",
+				"name": "Mongolia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "ME",
+				"name": "Montenegro",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "MA",
+				"name": "Morocco",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "MZ",
+				"name": "Mozambique",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "MM",
+				"name": "Myanmar",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "NA",
+				"name": "Namibia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "NP",
+				"name": "Nepal",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "NL",
+				"name": "Netherlands",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "NZ",
+				"name": "New Zealand",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "NI",
+				"name": "Nicaragua",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "NE",
+				"name": "Niger",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "NG",
+				"name": "Nigeria",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "NO",
+				"name": "Norway",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "OM",
+				"name": "Oman",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "PK",
+				"name": "Pakistan",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "PA",
+				"name": "Panama",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "PG",
+				"name": "Papua New Guinea",
+				"value": 50000,
+				"color": "#8aabb0"
+			}, {
+				"code": "PY",
+				"name": "Paraguay",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "PE",
+				"name": "Peru",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "PH",
+				"name": "Philippines",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "PL",
+				"name": "Poland",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "PT",
+				"name": "Portugal",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "PR",
+				"name": "Puerto Rico",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "QA",
+				"name": "Qatar",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "RO",
+				"name": "Romania",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "RU",
+				"name": "Russia",
+				"value": 50000,
+				"color": "#e60000",
+                "title":"Russiaaaa",
+			}, {
+				"code": "RW",
+				"name": "Rwanda",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "SA",
+				"name": "Saudi Arabia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "SN",
+				"name": "Senegal",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "RS",
+				"name": "Serbia",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "SL",
+				"name": "Sierra Leone",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "SG",
+				"name": "Singapore",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "SK",
+				"name": "Slovak Republic",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "SI",
+				"name": "Slovenia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "SB",
+				"name": "Solomon Islands",
+				"value": 50000,
+				"color": "#8aabb0"
+			}, {
+				"code": "SO",
+				"name": "Somalia",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "ZA",
+				"name": "South Africa",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "ES",
+				"name": "Spain",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "LK",
+				"name": "Sri Lanka",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "SD",
+				"name": "Sudan",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "SR",
+				"name": "Suriname",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "SZ",
+				"name": "Swaziland",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "SE",
+				"name": "Sweden",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "CH",
+				"name": "Switzerland",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "SY",
+				"name": "Syria",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "TW",
+				"name": "Taiwan",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "TJ",
+				"name": "Tajikistan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "TZ",
+				"name": "Tanzania",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "TH",
+				"name": "Thailand",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "TG",
+				"name": "Togo",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "TT",
+				"name": "Trinidad and Tobago",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "TN",
+				"name": "Tunisia",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "TR",
+				"name": "Turkey",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "TM",
+				"name": "Turkmenistan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "UG",
+				"name": "Uganda",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "UA",
+				"name": "Ukraine",
+				"value": 50000,
+				"color": "#e60000"
+                
+			}, {
+				"code": "AE",
+				"name": "United Arab Emirates",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "GB",
+				"name": "United Kingdom",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "US",
+				"name": "United States",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "UY",
+				"name": "Uruguay",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "UZ",
+				"name": "Uzbekistan",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "VE",
+				"name": "Venezuela",
+				"value": 50000,
+				"color": "#80bfff"
+			}, {
+				"code": "PS",
+				"name": "West Bank and Gaza",
+				"value": 50000,
+				"color": "#e60000"
+			}, {
+				"code": "VN",
+				"name": "Vietnam",
+				"value": 50000,
+				"color": "#d6d6c2"
+			}, {
+				"code": "YE",
+				"name": "Yemen, Rep.",
+				"value": 50000,
+				"color": "#0033cc"
+			}, {
+				"code": "ZM",
+				"name": "Zambia",
+				"value": 50000,
+                "color": "#80bfff"
+			}, {
+				"code": "ZW",
+				"name": "Zimbabwe",
+				"value": 50000,
+                "color": "#80bfff"
+			}];
+
+
+			var map;
+			var minBulletSize = 3;
+			var maxBulletSize = 70;
+			var min = Infinity;
+			var max = -Infinity;
+
+			AmCharts.theme = AmCharts.themes.black;
+
+			// get min and max values
+			for (var i = 0; i < mapData.length; i++) {
+				var value = mapData[i].value;
+				if (value < min) {
+					min = value;
+				}
+				if (value > max) {
+					max = value;
+				}
+			}
+
+			// build map
+			AmCharts.ready(function() {
+				map = new AmCharts.AmMap();
+				map.projection = "winkel3";
+
+				map.addTitle("Mappa Mondiale della Guerra Fredda", 14);
+				map.addTitle("Fonte: wikipedia", 11);
+				map.areasSettings = {
+					unlistedAreasColor: "#FFFFFF",
+					unlistedAreasAlpha: 0.1
+				};
+				map.imagesSettings = {
+					balloonText: "<span style='font-size:14px;'><b>[[title]]",
+					alpha: 0.6
+				}
+
+				var dataProvider = {
+					mapVar: AmCharts.maps.worldLow,
+					images: []
+				}
+
+				// create circle for each country aggiungi dopo title </b>: [[value]]</span> prima delle virgolette
+
+				// it's better to use circle square to show difference between values, not a radius
+				var maxSquare = maxBulletSize * maxBulletSize * 2 * Math.PI;
+				var minSquare = minBulletSize * minBulletSize * 2 * Math.PI;
+
+				// create circle for each country
+				for (var i = 0; i < mapData.length; i++) {
+					var dataItem = mapData[i];
+					var value = dataItem.value;
+					// calculate size of a bubble
+					var square = (value - min) / (max - min) * (maxSquare - minSquare) + minSquare;
+					if (square < minSquare) {
+						square = minSquare;
+					}
+					var size = Math.sqrt(square / (Math.PI * 2));
+					var id = dataItem.code;
+
+					dataProvider.images.push({
+						type: "circle",
+						width: size,
+						height: size,
+						color: dataItem.color,
+						longitude: latlong[id].longitude,
+						latitude: latlong[id].latitude,
+						title: dataItem.name,
+						value: value
+					});
+				}
+
+
+
+				// the following code uses circle radius to show the difference
+				/*
+				for (var i = 0; i < mapData.length; i++) {
+					var dataItem = mapData[i];
+					var value = dataItem.value;
+					// calculate size of a bubble
+					var size = (value - min) / (max - min) * (maxBulletSize - minBulletSize) + minBulletSize;
+					if (size < minBulletSize) {
+						size = minBulletSize;
+					}
+					var id = dataItem.code;
+
+					dataProvider.images.push({
+						type: "circle",
+						width: size,
+						height: size,
+						color: dataItem.color,
+						longitude: latlong[id].longitude,
+						latitude: latlong[id].latitude,
+						title: dataItem.name,
+						value: value
+					});
+				}*/
+
+
+
+				map.dataProvider = dataProvider;
+
+				map.write("mapdiv");
+			});
+		</script>
+				<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Le armi nucleari di USA e USSR'
+        },
+        subtitle: {
+            text: 'Fonte: <a href="http://thebulletin.metapress.com/content/c4120650912x74k7/fulltext.pdf">' +
+                'thebulletin.metapress.com</a>'
+        },
+        subtitle: {
+            text: 'Grafico che indica il numero di scorte di armamenti nucleari dichiarate, o presumibilmente possedute, dagli USA e dall URSS'
+        },
+        xAxis: {
+            allowDecimals: false,
+            labels: {
+                formatter: function () {
+                    return this.value; // clean, unformatted number for year
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Armi Nucleari'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value / 1000 + 'k';
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '{series.name} ha prodotto <b>{point.y:,.0f}</b><br/>armi nucleari nel {point.x}'
+        },
+        plotOptions: {
+            area: {
+                pointStart: 1950 ,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'USA',
+            data: [null, null, null, null, null, 6, 11, 32, 110, 235, 369, 640,
+                1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
+                27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
+                26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+                24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586,
+                22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
+                10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104]
+        }, {
+            name: 'USSR/Russia',
+            data: [null, null, null, null, null, null, null, null, null, null,
+                5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
+                4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
+                15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049,
+                33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000, 37000,
+                35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
+                21000, 20000, 19000, 18000, 18000, 17000, 16000]
+        }]
+    });
+});
+		</script>
+	</head>
+
+<body>
+		<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                            <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                            <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="index.html">
+                    	<h1><img src="images/logo.png" alt="logo">Tesina</h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="dropdown"><a href="fisica_fotoni.htm">Fisica <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="fisica_fotoni.htm#superamento">Superamento della Fisica Classica</a></li>
+                                <li><a href="fisica_fotoni_2.htm#maggiormente">I fondatori della Fisica Quantistica</a></li>
+                                <li><a href="fisica_fotoni_3.htm#radiazione">Radiazione Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_3.htm#grafico">Grafico - Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_4.htm#planck">Teoria di Planck</a></li>
+                                <li><a href="fisica_fotoni_4.htm#fotoelettrico">L’effetto fotoelettrico</a></li>
+                                
+                            </ul>
+                        </li>                    
+                        <li class="dropdown"><a href="scienze.html">Scienze<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="scienze.html#lujendra">l'enigma dell'acqua su marte</a></li>
+                                <li><a href="scienze.html#dove">L'acqua su Marte da dove arriva</a></li>
+                                <li><a href="scienze.html#proibita">Perche proibita?</a></li>
+                                <li><a href="scienze.html#outer">Trattato sullo spazio extra atmosferico</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="inglese1_danieldefoe.html">Inglese <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="inglese1_danieldefoe.html#vita">Chi è Daniel DeFoe?</a></li>
+                                <li><a href="inglese1_danieldefoe.html#summary">Robinson Cruose</a></li>
+                                <li><a href="inglese1_danieldefoe.html#landing">Robinson's Safe Landing</a></li>
+                                <li><a href="inglese1_danieldefoe.html#jj">Quote from James Joyce</a></li>
+                                <li><a href="inglese1_danieldefoe.html#martian">A modern Robinson Crusoe</a></li>
+                                <li><a href="inglese1_danieldefoe.html#comparison">Comparison Crusoe and The Martian</a></li>
+                            </ul>
+                        </li> 
+                        <li class="dropdown"><a href="storia.html">Storia <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li ><a href="storia.html">La corsa allo spazio</a></li>
+                                <li ><a href="storia_2.html#fredda">Il termine “Guerra Fredda”</a></li>
+                                <li ><a href="storia_2.html#inizio">L'inizio della Guerra Fredda</a></li>
+                                <li ><a href="storia_2.html#due">Nascita delle due Germanie</a></li>
+                                <li ><a href="storia_2.html#nato">Creazione della NATO</a></li>
+                                <li ><a href="storia_2.html#ar">Le armi usate</a></li>
+                                <li ><a href="storia_3.html#corsa">La corsa allo spazio</a></li>
+                                <li><a href="storia_3.html#proga">Sviluppo due programmi spaziali</a></li>
+                                <li><a href="storia_3.html#fine">La Fine della Guerra Fredda </a></li>
+                            </ul>
+                        </li>                        
+                        <li><a href="shortcodes.html ">Shortcodes</a></li>                    
+                    </ul>
+                </div>
+                <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+   
+
+    <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1 style="letter-spacing: -1px;">« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin &#203;duardovi&#231; Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    <!--/#home-slider-->
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                           <div id="feature-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-header"></h2>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="feature-inner">
+                            
+                                <a href="fisica_fotoni.htm"><img src="images/home/fisica.png" alt=""></a>
+                            
+                            <h2>Fisica</h2>
+                            <p>Dalla crisi della fisica classica fino ai fotoni</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
+                        <div class="feature-inner">
+                            <a href="scienze.html"><img src="images/home/chimica.png" alt=""></a>
+                            <h2>Scienze</h2>
+                            <p>La presenza dell'acqua "proibita" su Marte</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="900ms">
+                        <div class="feature-inner">
+                            <a href="inglese1_danieldefoe.html"><img src="images/home/inglese.png" alt=""></a>
+                            <h2>Inglese</h2>
+                            <p>Robinson Crusoe on Mars?</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="1200ms">
+                        <div class="feature-inner">
+                            <a href="storia.html"><img src="images/home/storia.png" alt=""></a>
+                            <h2>Storia</h2>
+                            <p>L'inizio della corsa allo spazio.</p>
+                        </div>
+                    </div>                        
+                </div>
+            </div><!--/#feature-container-->
+            </div>
+
+        </div>
+    </section>
+    
+	<body>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h2 class="title">La Guerra Fredda</h2>
+                            <p>1947-1991</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-9 col-sm-7">
+        
+                            
+                                          
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="fredda">Introduzione</a></h2>
+                                    
+                                    
+                                    
+                                     
+                                                <ul style="list-style-type:circle">
+                                                  <li>Il termine “Guerra Fredda” è usato per la prima volta dallo scrittore George Orwell </li>
+                                                  <li>Nel 1947 il giornalista Walter Lippmann lo sceglie come titolo del libro “The Cold War”</li>
+                                                  <li>Non si tratta di una guerra combattuta ma di forte tensione politica e militare che ha segnato la storia dell’900 per oltre 40 anni</li>
+                                                    </ul> 
+                                    
+                                    
+                                   
+                                    
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        <div class="testimonial">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/home/profile1.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <blockquote><center>Il modo più rapido per terminare una guerra è perderla</center></blockquote>
+                                    <h3><a href="#">- George Orwell </a></h3>
+                                </div>
+                            </div>
+                        </div>
+            </div><!--/#testimonial-container-->
+                                </div>
+                                
+                            <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="inizio">L'inizio della Guerra Fredda</a></h2>
+                                    
+                                    
+                                    
+                                    
+                                     
+                                                <p>Prima della fine della Seconda Guerra Mondiale USA, Urss e Gran Bretagna si accordano le aree di influenza in particolare la situazione della Germania. L’Europa si trova politicamente ed economicamente molto debole con più di 40 millioni di vittime rispetto USA e Urss. Gli Stati Uniti si proposero come paese-guida del mondo capitalistico creando il Fondo Monetario e la banca mondiale (Accordi di Bretton-Woods, 1944) e con il piano Marshall finanziarono la ripresa dell’Europa e la fondazione dell’ONU. L’Unione Sovietica mirava a diventare la più grande potenza e Stalin voleva estendere l’influenza sull’Europa, con conferenza di Yalta Urss chiedeva alla Germania 10 millioni di dollari pagati però in beni materiali.</p>
+                                                
+                                                
+                                                <center><div style="background-color:#222222; "><div id="mapdiv" style="width: 100%; height: 600px; font-size:0px "></div></div></center>
+                                                
+                                    
+                                    
+                                </div><div class="post-bottom overflow"></div><!-- Riga-->
+
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="due">Nascita delle due Germanie</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+           
+                                    <p>In questo clima il più importante terreno di confronto tra le due grandi potenze diventa la Germania: nel giugno del 1948 gli occupanti del settore occidentale (inglesi, francesi ed americani) unificanole loro porzioni di territorio e iniziano a farvi circolare una moneta unica, in vista della creazione di uno stato tedesco autonomo. L’URSS, che occupa il settore tedesco di cui fa parte Berlino (città divisa a sua volta in quattro settori), reagisce con il blocco delle vie di terra di accesso alla città che durerà fino al maggio 1949 (dando vita anche ad un celebre “ponte aereo” da parte delle forze occidentali) e costituisce la prima grande contrapposizione tra potenze della Guerra fredda. Pochi mesi dopo la fine del blocco nasce la Repubblica Federale Tedesca nel settore occidentale, seguita dalla Repubblica Democratica Tedesca in quello sovietico. </p>
+                <div class="post-thumb">
+                    <div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
+                        <div class="portfolio-wrapper">
+                            <div class="portfolio-single">
+                                <div class="portfolio-thumb">
+                                    <img src="images/portfolio/germany.png" class="img-responsive" alt="">
+                                </div>
+                                <div class="portfolio-view">
+                                    <ul class="nav nav-pills">
+                                        <li><a href="https://it.wikipedia.org/wiki/Storia_della_Germania_dal_1945"><i class="fa fa-link"></i></a></li>
+                                        <li><a href="images/blog/germany.png" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <center><div class="portfolio-info ">
+                                <h2>Germania Divisa</h2>
+                            </div></center>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded folio">
+                        <div class="portfolio-wrapper">
+                            <div class="portfolio-single">
+                                <div class="portfolio-thumb">
+                                    <img src="images/portfolio/wallace.png" class="img-responsive" alt="">
+                                </div>
+                                <div class="portfolio-view">
+                                    <ul class="nav nav-pills">
+                                        <li><a href="https://it.wikipedia.org/wiki/Muro_di_Berlino"><i class="fa fa-link"></i></a></li>
+                                        <li><a href="images/blog/wallace.png" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <center><div class="portfolio-info">
+                                <h2>Muro di Berlino</h2>
+                            </div></center>
+                        </div>
+                    </div>
+                                                   <div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
+                        <div class="portfolio-wrapper">
+                            <div class="portfolio-single">
+                                <div class="portfolio-thumb">
+                                    <img src="images/portfolio/berlino.png" class="img-responsive" alt="">
+                                </div>
+                                <div class="portfolio-view">
+                                    <ul class="nav nav-pills">
+                                        <li><a href="https://it.wikipedia.org/wiki/Storia_di_Berlino"><i class="fa fa-link"></i></a></li>
+                                        <li><a href="images/blog/berlino.png" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <center><div class="portfolio-info ">
+                                <h2>Città di Berlino</h2>
+                            </div></center>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded folio">
+                        <div class="portfolio-wrapper">
+                            <div class="portfolio-single">
+                                <div class="portfolio-thumb">
+                                    <img src="images/portfolio/ponte.png" class="img-responsive" alt="">
+                                </div>
+                                <div class="portfolio-view">
+                                    <ul class="nav nav-pills">
+                                        <li><a href="https://it.wikipedia.org/wiki/Ponte_aereo_per_Berlino"><i class="fa fa-link"></i></a></li>
+                                        <li><a href="images/blog/ponte.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <center><div class="portfolio-info">
+                                <h2>Ponte Aereo</h2>
+                            </div></center>
+                        </div>
+                    </div>
+                </div>
+                                    
+                                    <div class="post-bottom overflow"></div><!-- Riga-->
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="nato">Creazione della NATO</a></h2>
+                                    
+                                    
+                                    
+                                    
+                                     
+                                                <p>L’ultimo tassello nella definizione delle due sfere contrapposte è costituito dalla creazione della NATO con la firma, il 4 aprile 1949, del Patto Atlantico. La minaccia dell’espansionismo sovietico richiede infatti un’alleanza degli stati occidentali sul piano militare, in quanto gli Stati Uniti altrimenti non possono garantire adeguata protezione all’Europa. Il 1949 si chiude con due eventi che spingono ancora di più gli Stati Uniti a temere per la propria supremazia. Infatti, se la superiorità delle forze militari di terra dell’URSS è stata fino ad ora bilanciata dal fatto che solo gli USA dispongono della bomba atomica, con gli esperimenti nucleari sovietici nell’agosto del 1949 questa sicurezza statunitense viene meno. La reazione negli USA alla “minaccia comunista”è rappresentata dal documento del National Security Council memorandum 68 (NSC-68) dell’aprile 1950, nel quale si delineano le misure da prendere per opporsi al rafforzamento sovietico. Queste vanno dall’aumento degli investimenti nella difesa, all’incremento delle forze statunitensi, allo sviluppo di un programma per la bomba all’idrogeno.</p>
+                                    
+
+
+
+                                </div>
+                                <div class="post-bottom overflow"></div><!-- Riga-->
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="ar">Le armi</a></h2>
+                                    
+                                    
+                                    
+                                    
+                                     
+                                                <p>Sono bombe atomiche anche se non vengono utilizzate direttamente vengono usate come uno strumento di pressione infatti uno dei aspetti più importanti della guerra fredda è la corsa agli armamenti. Le due potenze ingrandiscono costantemente gli arsenali atomici e la paura di scopiare una terza guerra mondiale e nucleare impedisce per fortuna che scopi davvero.
+I due blocchi investono nel settore militare come in quello tecnologico e in quello aereospaziale.
+L’obiettivo era di esercitare supremazia sul blocco nemico in altri termini “mostrare i muscoli”
+</p>
+                                    
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                                </div><div class="post-bottom overflow"></div><!-- Riga-->
+                            
+                                           
+
+                   
+
+                    
+                 </div>
+                 <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                        <div class="sidebar-item categories">
+                            <h3>Argomenti</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="storia_2.html#fredda">Il termine “Guerra Fredda”</a></li>
+                                <li class="active"><a href="storia_2.html#inizio">L'inizio della Guerra Fredda</a></li>
+                                <li class="active"><a href="storia_2.html#due">Nascita delle due Germanie</a></li>
+                                <li class="active"><a href="storia_2.html#nato">Creazione della NATO</a></li>
+                                <li class="active"><a href="storia_2.html#ar">Le armi usate</a></li>
+                                <li ><a href="storia_3.html#corsa">La corsa allo spazio</a></li>
+                                <li><a href="storia_3.html#proga">Lo sviluppo dei due programmi spaziali </a></li>
+                                <li><a href="storia_3.html#fine">La Fine della Guerra Fredda </a></li>
+                            </ul>
+                        </div>
+                        
+                           <div class="sidebar-item popular">
+                            <h3>Vintage Photos</h3>
+                            
+                            <ul class="gallery">
+                               
+                                <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/stalin.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/stalin.jpeg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/defenders.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/defenders.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/bombe.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/bombe.jpg"s data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/freedom.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/freedom.jpeg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/5.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/5.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/cuba.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/cuba.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               
+                               
+                                
+                            </ul>
+                        </div>
+                       		
+                                             <div class="sidebar-item  recent">
+                            <h3>Legenda</h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese1.html"><img src="images/portfolio/nato.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="#">NATO</a></h4>
+                                    <p>North Atlantic Treaty Organization</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese2.html"><img src="images/portfolio/neu.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="#">Paesi filo-USA</a></h4>
+                                    <p>alleati e colonie</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/portfolio/red.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html">Paesi filo-Russi</a></h4>
+                                    <p>Russia e alleati</p>
+                                </div>
+                            </div>
+                              <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/portfolio/neu2.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html">Paesi Neutrali</a></h4>
+                                    
+                                </div>
+                            </div>
+                               
+                        </div>
+                        
+                         
+                           
+                            
+                            
+                        </div>
+                        <div class="sidebar-item popular">
+                            <h3>Vintage Photos</h3>
+                            
+                            <ul class="gallery">
+                               
+                                <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/1.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/2.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/3.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/4.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/5.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/5.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/6.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/6.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               
+                               
+                                
+                            </ul>
+                        </div>
+                        
+                        <div class="sidebar-item  recent" >
+                            <h3 >Gli eventi più importanti </h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese1.html"><img src="images/portfolio/guerra di corea.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="https://it.wikipedia.org/wiki/Guerra_di_Corea">Guerra di Corea </a></h4>
+                                    <p style="font-size: 25px;font-weight: bold;">dal 1950 a 1953</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="https://it.wikipedia.org/wiki/Rivoluzione_ungherese_del_1956"><img src="images/portfolio/rebebuda.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese2.html">La ribellione di Budapest</a></h4>
+                                    <p style="font-size: 25px;font-weight: bold;">del 1956</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="https://it.wikipedia.org/wiki/Invasione_della_baia_dei_Porci"><img src="images/portfolio/baia%20dei%20porci.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html">Baia dei Porci a Cuba</a></h4>
+                                    <p style="font-size: 25px;font-weight: bold;">nel 1962</p>
+                                </div>
+                            </div>
+                              <div class="media">
+                                <div class="pull-left">
+                                    <a href="https://it.wikipedia.org/wiki/Rivolta_di_Praga"><img src="images/portfolio/praga.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html">Ribellione di Praga </a></h4>
+                                    <p style="font-size: 25px;font-weight: bold;">nel 1968</p>
+                                </div>
+                            </div>
+                               
+                        </div>
+                               
+                                <div class="scrollingBox">
+			                    <div class="sidebar-item categories">
+                            <h3>Argomenti</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="storia_2.html#fredda">Il termine “Guerra Fredda”</a></li>
+                                <li class="active"><a href="storia_2.html#inizio">L'inizio della Guerra Fredda</a></li>
+                                <li class="active"><a href="storia_2.html#due">Nascita delle due Germanie</a></li>
+                                <li class="active"><a href="storia_2.html#nato">Creazione della NATO</a></li>
+                                <li class="active"><a href="storia_2.html#ar">Le armi usate</a></li>
+                                <li ><a href="storia_3.html#corsa">La corsa allo spazio</a></li>
+                                <li><a href="storia_3.html#proga">Lo sviluppo dei due programmi spaziali </a></li>
+                                <li><a href="storia_3.html#fine">La Fine della Guerra Fredda </a></li>
+                            </ul>
+                        </div>
+		                        </div> 
+                     
+                        
+                    </div>
+                </div> 
+                                   <!-- <div class="row">
+                         
+
+                         <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                               
+                               <center> <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/ita.png" class="img-responsive" alt=""></a>
+                                   
+                                </div> </center>
+                                <div class="post-content overflow">
+                                    <center><h2 class="post-title bold"><a href="blogdetails.html">Speech in English</a></h2></center>
+                                    
+                                    
+                                    <center>
+                                    <p>"We set sail on this new sea because there is new knowledge to be gained, and new rights to be won, and they must be won and used for the progress of all people. For space science, like nuclear science and all technology, has no conscience of its own. Whether it will become a force for good or ill depends on man, and only if the United States occupies a position of pre-eminence can we help decide whether this new ocean will be a sea of peace or a new terrifying theater of war. I do not say that we should or will go unprotected against the hostile misuse of space any more than we go unprotected against the hostile use of land or sea, but I do say that space can be explored and mastered without feeding the fires of war, without repeating the mistakes that man has made in extending his writ around this globe of ours.</p><p>
+
+There is no strife, no prejudice, no national conflict in outer space as yet. Its hazards are hostile to us all. Its conquest deserves the best of all mankind, and its opportunity for peaceful cooperation many never come again. But why, some say, the moon? Why choose this as our goal? And they may well ask why climb the highest mountain? Why, 35 years ago, fly the Atlantic? Why does Rice play Texas?</p></center>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <center><div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/usa.png" class="img-responsive" alt=""></a>
+                                    
+                                </div></center>
+                                <div class="post-content overflow">
+                                   <center><h2 class="post-title bold"><a href="blogdetails.html">Il discorso in Italiano</a></h2></center> 
+                                    <center>
+                                    <p>"We set sail on this new sea because there is new knowledge to be gained, and new rights to be won, and they must be won and used for the progress of all people. For space science, like nuclear science and all technology, has no conscience of its own. Whether it will become a force for good or ill depends on man, and only if the United States occupies a position of pre-eminence can we help decide whether this new ocean will be a sea of peace or a new terrifying theater of war. I do not say that we should or will go unprotected against the hostile misuse of space any more than we go unprotected against the hostile use of land or sea, but I do say that space can be explored and mastered without feeding the fires of war, without repeating the mistakes that man has made in extending his writ around this globe of ours.</p><p>
+
+There is no strife, no prejudice, no national conflict in outer space as yet. Its hazards are hostile to us all. Its conquest deserves the best of all mankind, and its opportunity for peaceful cooperation many never come again. But why, some say, the moon? Why choose this as our goal? And they may well ask why climb the highest mountain? Why, 35 years ago, fly the Atlantic? Why does Rice play Texas?</p></center>
+                                   
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>-->
+                       
+                        <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="storia.html">left</a></li>
+                          <li ><a href="storia.html">1</a></li>
+                          <li class="active"><a href="#">2</a></li>
+                          <li ><a href="storia_3.html">3</a></li>
+                          
+                          <li><a href="storia_3.html">right</a></li>
+                        </ul>
+                    </div>
+                    </div>
+            </div>
+            
+        </div>
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 2500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '0px',
+                    'bottom': '500px',
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

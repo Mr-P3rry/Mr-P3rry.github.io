@@ -1,0 +1,546 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+	
+	
+	 <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1>« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin Ėduardovič Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/home/icon1.png" alt=""></a>
+                        </div>
+                        <h2>Fisica</h2>
+                        <p> L'equazione del razzo o Tsiolkovsky, leggi di Keplero e legge di gravitazione universale di Newton </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="inglese1.html"><img src="images/home/icon4.png" alt=""></a>
+                        </div>
+                        <h2>Inglese</h2>
+                        <p> Il discorso di Kennedy <br> - Kennedy's Famous 'Moon' Speech -</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="storia.html"><img src="images/home/icon5.1.png" alt=""> </a>
+                        </div>
+                        <h2>Storia</h2>
+                        <p>I viaggi spaziali più importanti nella storia dell'umanità</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+	<body>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h1 class="title">Blog</h1>
+                            <p>Blog with right sidebar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-9 col-sm-7">
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    
+                                   <div id="container" > </div><!--/container grafico--><ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    </div>
+                                </div>
+                            
+                                           
+                    <div class="row">
+                         
+
+                         <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                               
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/1.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/4.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                   
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/5.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/6.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/3.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/2.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="#">left</a></li>
+                          <li class="active"><a href="#">1</a></li>
+                          <li><a href="fisica_conGrafico1.htm">2</a></li>
+                          <li><a href="#">3</a></li>
+                          <li><a href="#">right</a></li>
+                        </ul>
+                    </div>
+                 </div>
+                <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                       		
+                        <div class="sidebar-item  recent">
+                            <h3>Comments</h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/portfolio/project1.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/portfolio/project2.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/portfolio/project3.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar-item categories">
+                            <h3>Concetti Matematici</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="#">Lorem ipsum<span class="pull-right">(1)</span></a></li>
+                                <li ><a href="#">Dolor sit amet<span class="pull-right">(8)</span></a></li>
+                                <li><a href="#">Adipisicing elit<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Sed do<span class="pull-right">(9)</span></a></li>
+                                <li><a href="#">Eiusmod<span class="pull-right">(3)</span></a></li>
+                                <li><a href="#">Mockup<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Ut enim ad minim <span class="pull-right">(2)</span></a></li>
+                                <li><a href="#">Veniam, quis nostrud <span class="pull-right">(8)</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-item tag-cloud">
+                           <div class="scrollingBox">
+			<h3>Derivazione dell'equazione</h3>
+			<a><iframe width="300" height="250"  src="https://www.youtube.com/embed/Xm13Kq_E1ik?autoplay=0&controls=1&showinfo=0&rel=0&modestbranding=0" frameborder="0" allowfullscreen controls=1></iframe></a>
+		                </div> 
+                            <!--
+                            
+                        </div>
+                        <div class="sidebar-item popular">
+                            <h3>Latest Photos</h3>
+                            <ul class="gallery">
+                                <li><a href="#"><img src="images/portfolio/popular1.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="images/portfolio/popular2.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="images/portfolio/popular3.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="images/portfolio/popular4.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="images/portfolio/popular5.jpg" alt=""></a></li>
+                                <li><a href="#"><img src="images/portfolio/popular1.jpg" alt=""></a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div> 
+            </div>
+            
+        </div>
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>-->
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 1500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '300px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

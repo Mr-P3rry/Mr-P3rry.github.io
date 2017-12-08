@@ -1,0 +1,587 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+	
+	
+	 <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1>« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin Ėduardovič Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/home/icon1.png" alt=""></a>
+                        </div>
+                        <h2>Fisica</h2>
+                        <p> L'equazione del razzo o Tsiolkovsky, leggi di Keplero e legge di gravitazione universale di Newton </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="inglese1.html"><img src="images/home/icon4.png" alt=""></a>
+                        </div>
+                        <h2>Inglese</h2>
+                        <p> Il discorso di Kennedy <br> - Kennedy's Famous 'Moon' Speech -</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="storia.html"><img src="images/home/icon5.1.png" alt=""> </a>
+                        </div>
+                        <h2>Storia</h2>
+                        <p>I viaggi spaziali più importanti nella storia dell'umanità</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+	<body>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h2 class="title">Daniel Defoe</h2>
+                            <p>1660-1731</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Daniel Defoe</a></h2>
+                                    <h3 class="post-author">Fonte: <a href="http://www.biography.com/people/daniel-defoe-9269678">http://www.biography.com/</a></h3>
+                                    <p>He was born in 1660 in London. He became a merchant and participated in several failing businesses, facing bankruptcy and aggressive creditors. He was also a political pamphleteer which landed him in prison for slander. Late in life he turned his pen to fiction and wrote Robinson Crusoe, one of the most widely read and influential novels of all time. Defoe died in 1731.</p>
+                
+                      <div class="col-sm-3 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/eng/daniel_defoe.jpg" alt=""></a>
+                      </div> 
+                          
+                            <!-- 
+                             <div class="our-skills">
+                           
+                            <h2 class="bold">From 1945 to 1975</h2>
+                            <div class="single-skill">
+                                <h3>output per hour of labor increased </h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger six-sec-ease-in-out" role="progressbar"  data-transition="120">120%</div>
+                                </div>
+                            </div>
+                            <div class="single-skill">
+                                <h3>output per standard unit of energy increased</h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success six-sec-ease-in-out" role="progressbar"  data-transition="40">23%</div>
+                                </div>
+                            </div>
+                            <div class="single-skill">
+                                <h3>Work hours in agriculture fell from 19.2</h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning six-sec-ease-in-out" role="progressbar"  data-transition="20">7.5%</div>
+                                </div>
+                            </div>
+                        
+                        
+                        
+                        </div> 
+                        
+                        
+                   --> <br><h2 class="post-title bold"><a href="blogdetails.html">Robinson Crusoe</a></h2>
+                                   <h3 class="post-author">short summary</h3>
+                                    <p>
+
+
+Robinson Crusoe was shipwrecked after a severe storm. He was the only survivor, and he immediately began to build a shelter and search for food for survival. He tried to salvage as much as possible from the shipwrecked ship and save things that he thought was useful. He began to write in a journal so that he would be able to remember what happened to him while he was on the island. He learned many useful skills, including fishing and farming. 
+                                    </p><p>After 15 years on the island, Crusoe discovered footprints in the sand but no signs of people. Years later, he spotted cannibals on the island. He spotted them again sometime later and noticed a victim escaping. Crusoe presumed the victim had managed to survive a shipwreck he spotted earlier in the year. Crusoe saved him, named him Friday and taught him how to speak English. </p><p>
+Crusoe and Friday were eventually rescued from the island after they helped the captain of the ship escape a mutiny. Once in England, Crusoe discovered that he was wealthy. He married and had three children, but Crusoe still wanted to continue his adventures. </p>
+
+                                    
+                                   <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    
+                                               <h2 class="post-title bold"><a href="blogdetails.html">Robinson's Safe Landing on Shore - Life on the Island</a></h2>
+                                    <h3 class="post-author">Part which I did by myself</h3></div>
+                                    <p>This portion of the novel is dedicated to Crusoe's time alone on the island. He builds three main structures: his initial shelter, his country home on the opposite side of the island, and his guns and ammo fort in the woods. He spends his time planting corn, barley, and rice. He learns to make bread. He builds furniture, weaves baskets, and makes pots. Crusoe also raises goats and tends to his little animal family of cats, dogs, and a parrot. Most importantly, though, Crusoe becomes stronger in his religious faith, eventually submitting to the authority of God. He devotes himself to much religious reflection and prayer.
+</p><div class="col-sm-5 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            
+                            
+                <h2 class="page-header">Honorable Mentions</h2>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators visible-xs">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="images/eng/robinsonCrusoe.jpg" alt="" >
+                            
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/robinsonCrusoe2.jpg" alt="" >
+                            
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/robinsonCrusoe3.jpg" alt="" >
+                           
+                        </div>
+                    </div>
+                    <a class="left carousel-control hidden-xs" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control hidden-xs" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div><!--/#carousel-example-generic-->
+            
+                      </div> 
+
+
+
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        
+                        <div class="testimonial">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/home/James_joyce.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <blockquote>The true symbol of the British conquest, who, cast away on a desert island, in his pocket a knife and a pipe, becomes an architect, a carpenter, a knife grinder, an astronomer … and a clergyman. He is the true prototype of the British colonist, as Friday … is the symbol of the subject races. The whole Anglo-Saxon spirit is in Crusoe: the manly independence; the unconscious cruelty; the persistence; the slow yet efficient intelligence.</blockquote>
+                                    <h3><p style="font-size:15px">Apparently in some lectures delivered in Trieste, Italy (1912) Joyce had this to say about DeFoe's Robinson Crusoe and how it reflects the English mindset:</p><a href="http://www.ricorso.net/rx/az-data/authors/j/Joyce_JA/quots/quots2.htm#DDefoe">- James Joyce</a></h3>
+                                    
+                                </div>
+                            </div>
+                        </div>
+            </div><!--/#testimonial-container-->
+                                </div>
+                            
+                                           
+
+                   
+
+                    
+                 
+              <!--  <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                       		
+                        <div class="sidebar-item  recent">
+                            <h3>historical background</h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese1.html"><img src="images/portfolio/project1.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese1.html"> Situation in USA in 1960 &#38; Who was John F. Kennedy?</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese2.html"><img src="images/portfolio/project2.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese2.html">John F. Kennedy's Moon speech</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese3.html"><img src="images/portfolio/project3.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html"> The black civil rights movement</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                               
+                        </div>
+                        <div class="sidebar-item categories">
+                            <h3>Concetti Matematici</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="#">Lorem ipsum<span class="pull-right">(1)</span></a></li>
+                                <li ><a href="#">Dolor sit amet<span class="pull-right">(8)</span></a></li>
+                                <li><a href="#">Adipisicing elit<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Sed do<span class="pull-right">(9)</span></a></li>
+                                <li><a href="#">Eiusmod<span class="pull-right">(3)</span></a></li>
+                                <li><a href="#">Mockup<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Ut enim ad minim <span class="pull-right">(2)</span></a></li>
+                                <li><a href="#">Veniam, quis nostrud <span class="pull-right">(8)</span></a></li>
+                            </ul>
+                        </div>
+                         
+                           
+                            
+                            
+                        </div>
+                        <div class="sidebar-item popular">
+                            <h3>Honorable Mentions</h3>
+                            
+                            <ul class="gallery">
+                               
+                                <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/1.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/2.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/3.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/4.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/5.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/5.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/6.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/6.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               
+                               
+                                
+                            </ul>
+                        </div>
+                        
+                    </div> -->
+                </div> 
+
+                       
+                        <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="#">left</a></li>
+                          <li class="active"><a href="inglese1.html">1</a></li>
+                          <li><a href="inglese2.html">2</a></li>
+                          <li><a href="inglese3.html">3</a></li>
+                          
+                          <li><a href="inglese2.html">right</a></li>
+                        </ul>
+                    </div>
+                    
+            </div>
+            
+        
+        
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 1500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '300px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

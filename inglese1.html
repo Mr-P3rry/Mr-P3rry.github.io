@@ -1,0 +1,549 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+	
+	
+	 <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1>« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin Ėduardovič Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/home/icon1.png" alt=""></a>
+                        </div>
+                        <h2>Fisica</h2>
+                        <p> L'equazione del razzo o Tsiolkovsky, leggi di Keplero e legge di gravitazione universale di Newton </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="inglese1.html"><img src="images/home/icon4.png" alt=""></a>
+                        </div>
+                        <h2>Inglese</h2>
+                        <p> Il discorso di Kennedy <br> - Kennedy's Famous 'Moon' Speech -</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="storia.html"><img src="images/home/icon5.1.png" alt=""> </a>
+                        </div>
+                        <h2>Storia</h2>
+                        <p>I viaggi spaziali più importanti nella storia dell'umanità</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+	<body>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h2 class="title">Situation in USA in 1960 &#38; Who was John F. Kennedy?</h2>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-9 col-sm-7">
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">The 1960's</a></h2>
+                                    <h3 class="post-author"><a href="http://elcoushistory.tripod.com/economics1960.html">usa_history</a></h3>
+                                    <p>During the 1960s the United States experienced its longest uninterrupted period of economic expansion in history. In the 1960s housing and computer industry overpowered automobiles, chemicals, and electrically powered consumer durables, which were the leading sectors in the 1950s. Big business dominated the domestic economy during this time. In 1962 the five largest industrial corporations accounted for over 12 percent of all assets in manufacturing. </p>
+                                                        <div class="col-sm-5 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">
+                        <div class="our-skills">
+                            <h2 class="bold">From 1945 to 1975</h2>
+                            <div class="single-skill">
+                                <h3>output per hour of labor increased </h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger six-sec-ease-in-out" role="progressbar"  data-transition="120">120%</div>
+                                </div>
+                            </div>
+                            <div class="single-skill">
+                                <h3>output per standard unit of energy increased</h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success six-sec-ease-in-out" role="progressbar"  data-transition="40">23%</div>
+                                </div>
+                            </div>
+                            <div class="single-skill">
+                                <h3>Work hours in agriculture fell from 19.2</h3>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-warning six-sec-ease-in-out" role="progressbar"  data-transition="20">7.5%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    <p>
+
+
+   After World War II the efficiency and productivity of the US economy improved markedly. From 1945 to 1975 output per hour of labor increased 120 percent while output per standard unit of energy increased 23 percent. Work hours in agriculture fell from 19.2 to 7.5 percent also during this time. As the 1960 presidential election campaign got under way, the 1960-1961 recession began. John F Kennedy’s 1960 campaign promise “ to get America moving again “ referred to the American economy. He wanted economic growth at an annual rate of 4-6 percent and unemployment at 4 percent. Kennedy knew that the economy was in big trouble so he sent congress an economic growth and recovery package consisting of twelve measures. By mid 1962 he was convinced the economy needed additional stimulation that could be provided through a tax cut. Kennedy suggesting that business needed the tax relief that would be provided by liberalizing the depreciation allowance on new plants and equipment and by giving business a 7 percent investment tax credit. </p>
+   
+      
+   
+   <p>
+
+  The federal governments position in the economy continued growing during the decade. The government played several economic roles: it was at once a consumer, an employer, a regulator, and a social welfare agency. As a consumer it pumped billions of dollars into the economy by supporting scientific research, buying military equipment, building highways, and competing with the Soviet Union. As an employer it provided large numbers of civilian and military jobs. As a regulator the government stepper up its operations to control the economy and shape the business environment. 
+   By the end of the decade the average Americans real income had increased 50 percent. Median family income rose from $8,540 in 1963 to $10,770 by 1969.</p>
+                                    
+                                   <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    </div>
+                                               <h2 class="post-title bold"><a href="blogdetails.html">Who was John F. Kennedy?</a></h2>
+                                    <h3 class="post-author"><a href="http://elcoushistory.tripod.com/economics1960.html">usa_history</a></h3>
+                                    <p>John Fitzgerald Kennedy was elected as the first Catholic president in 1960 and quickly presented the question to America: “Ask not what your country can do for you--ask what you can do for your country." His economic programs launched the country on its longest sustained expansion since World War II; before his death, he laid plans for a massive assault on persisting pockets of privation and poverty. He strongly supported the civil rights movement and pushed for greater reforms. His vision of America extended to the quality of the national culture and the central role of the arts in a vital society. JFK established the Peace Corps on a temporary basis and asked Congress to make it permanent in March 1961. 
+</p><p>
+
+
+    On April 17, 1961, Twelve hundred Cuban exiles landed at the Bay of Pigs with the belief that they had American backup. President Kennedy decided against direct intervention and failed to provide air support for the exiles and they ultimately failed. The Russians sent the first man into space on April 12, 1961 which alarmed all of America. NASA scrambled to catch up and finally sent the first American, Alan Shepard into space in May 1961. In October 1962, pictures from a spy plane showed Soviet missile silos being set up in Cuba. President Kennedy ordered a blockade of Cuba on October 23, 1962. Premier Khruschev offered to remove the missiles from Cuba if the Americans removed their missiles from Turkey. On October 22, 1963, John F. Kennedy was shot and killed in a successful assassination attempt. Lee Harvey Oswald was accused of his murder but was killed by Jack Ruby before any trials could be had.     Lyndon Baines Johnson became the 36th President adter the death of JFK. LBJ was sworn in as President on November  22, 1963 and quickly built upon JFK’s beliefs. LBJ started the “Great Society” program in which he envisioned equality and total desegregation. He obtained enactment of the measures President Kennedy had been urging at the time of his death--a new civil rights bill and a tax cut.
+</p>
+
+
+
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        <div class="testimonial">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/home/profile1.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <blockquote>Ask not what your country can do for you,ask what you can do for your country.</blockquote>
+                                    <h3><a href="#">- John F. Kennedy</a></h3>
+                                </div>
+                            </div>
+                        </div>
+            </div><!--/#testimonial-container-->
+                                </div>
+                            
+                                           
+
+                   
+
+                    
+                 </div>
+                <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                       		
+                        <div class="sidebar-item  recent">
+                            <h3>historical background</h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese1.html"><img src="images/portfolio/project1.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese1.html"> Situation in USA in 1960 &#38; Who was John F. Kennedy?</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese2.html"><img src="images/portfolio/project2.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese2.html">John F. Kennedy's Moon speech</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese3.html"><img src="images/portfolio/project3.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html"> The black civil rights movement</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                               
+                        </div>
+                        <div class="sidebar-item categories">
+                            <h3>Concetti Matematici</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="#">Lorem ipsum<span class="pull-right">(1)</span></a></li>
+                                <li ><a href="#">Dolor sit amet<span class="pull-right">(8)</span></a></li>
+                                <li><a href="#">Adipisicing elit<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Sed do<span class="pull-right">(9)</span></a></li>
+                                <li><a href="#">Eiusmod<span class="pull-right">(3)</span></a></li>
+                                <li><a href="#">Mockup<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Ut enim ad minim <span class="pull-right">(2)</span></a></li>
+                                <li><a href="#">Veniam, quis nostrud <span class="pull-right">(8)</span></a></li>
+                            </ul>
+                        </div>
+                         
+                           
+                            
+                            
+                        </div>
+                        <div class="sidebar-item popular">
+                            <h3>Vintage Photos</h3>
+                            
+                            <ul class="gallery">
+                               
+                                <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/1.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/2.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/3.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/4.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/5.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/5.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/6.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/6.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               
+                               
+                                
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div> 
+
+                       
+                        <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="#">left</a></li>
+                          <li class="active"><a href="inglese1.html">1</a></li>
+                          <li><a href="inglese2.html">2</a></li>
+                          <li><a href="inglese3.html">3</a></li>
+                          
+                          <li><a href="inglese2.html">right</a></li>
+                        </ul>
+                    </div>
+                    
+            </div>
+            
+        
+        
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 1500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '300px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

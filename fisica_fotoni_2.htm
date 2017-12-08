@@ -1,0 +1,734 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+
+<body>
+		<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                            <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                            <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="index.html">
+                    	<h1><img src="images/logo.png" alt="logo">Tesina</h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="dropdown"><a href="fisica_fotoni.htm">Fisica <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="fisica_fotoni.htm#superamento">Superamento della Fisica Classica</a></li>
+                                <li><a href="fisica_fotoni_2.htm#maggiormente">I fondatori della Fisica Quantistica</a></li>
+                                <li><a href="fisica_fotoni_3.htm#radiazione">Radiazione Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_3.htm#grafico">Grafico - Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_4.htm#planck">Teoria di Planck</a></li>
+                                <li><a href="fisica_fotoni_4.htm#fotoelettrico">L’effetto fotoelettrico</a></li>
+                                
+                            </ul>
+                        </li>                    
+                        <li class="dropdown"><a href="scienze.html">Scienze<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="scienze.html#lujendra">l'enigma dell'acqua su marte</a></li>
+                                <li><a href="scienze.html#dove">L'acqua su Marte da dove arriva</a></li>
+                                <li><a href="scienze.html#proibita">Perche proibita?</a></li>
+                                <li><a href="scienze.html#outer">Trattato sullo spazio extra atmosferico</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="inglese1_danieldefoe.html">Inglese <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="inglese1_danieldefoe.html#vita">Chi è Daniel DeFoe?</a></li>
+                                <li><a href="inglese1_danieldefoe.html#summary">Robinson Cruose</a></li>
+                                <li><a href="inglese1_danieldefoe.html#landing">Robinson's Safe Landing</a></li>
+                                <li><a href="inglese1_danieldefoe.html#jj">Quote from James Joyce</a></li>
+                                <li><a href="inglese1_danieldefoe.html#martian">A modern Robinson Crusoe</a></li>
+                                <li><a href="inglese1_danieldefoe.html#comparison">Comparison Crusoe and The Martian</a></li>
+                            </ul>
+                        </li> 
+                        <li class="dropdown"><a href="storia.html">Storia <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li ><a href="storia.html">La corsa allo spazio</a></li>
+                                <li ><a href="storia_2.html#fredda">Il termine “Guerra Fredda”</a></li>
+                                <li ><a href="storia_2.html#inizio">L'inizio della Guerra Fredda</a></li>
+                                <li ><a href="storia_2.html#due">Nascita delle due Germanie</a></li>
+                                <li ><a href="storia_2.html#nato">Creazione della NATO</a></li>
+                                <li ><a href="storia_2.html#ar">Le armi usate</a></li>
+                                <li ><a href="storia_3.html#corsa">La corsa allo spazio</a></li>
+                                <li><a href="storia_3.html#proga">Sviluppo due programmi spaziali</a></li>
+                                <li><a href="storia_3.html#fine">La Fine della Guerra Fredda </a></li>
+                            </ul>
+                        </li>                         
+                        <li><a href="shortcodes.html ">Shortcodes</a></li>                    
+                    </ul>
+                </div>
+                <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+   
+
+    <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1 style="letter-spacing: -1px;">« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin &#203;duardovi&#231; Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    <!--/#home-slider-->
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                           <div id="feature-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-header"></h2>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="feature-inner">
+                            
+                                <a href="fisica_fotoni.htm"><img src="images/home/fisica.png" alt=""></a>
+                            
+                            <h2>Fisica</h2>
+                            <p>Dalla crisi della fisica classica fino ai fotoni</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
+                        <div class="feature-inner">
+                            <a href="scienze.html"><img src="images/home/chimica.png" alt=""></a>
+                            <h2>Scienze</h2>
+                            <p>La presenza dell'acqua "proibita" su Marte</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="900ms">
+                        <div class="feature-inner">
+                            <a href="inglese1_danieldefoe.html"><img src="images/home/inglese.png" alt=""></a>
+                            <h2>Inglese</h2>
+                            <p>Robinson Crusoe on Mars?</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="1200ms">
+                        <div class="feature-inner">
+                            <a href="storia.html"><img src="images/home/storia.png" alt=""></a>
+                            <h2>Storia</h2>
+                            <p>L'inizio della corsa allo spazio.</p>
+                        </div>
+                    </div>                        
+                </div>
+            </div><!--/#feature-container-->
+            </div>
+
+        </div>
+    </section>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h1 class="title">La crisi della fisica classica</h1>
+                            <p>L'ultimi anni del XIX secolo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-9 col-sm-7">
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="maggiormente">Maggiormente contribuì al superamento della fisica classica</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Uno dei filoni di ricerca che maggiormente contribuì al superamento della fisica classica fu quello
+relativo alla propagazione ed all'emissione della luce. L'indipendenza della velocità della luce dal
+sistema di riferimento scelto, dimostrata sperimentalmente da Michelson e Morley nel 1881,
+metteva in crisi il principio galileiano di composizione delle velocità. Inoltre il principio di relatività
+galileiana sembrava essere in contrasto con le equazioni di Maxwell che modificano la loro forma
+nel passaggio da un sistema di riferimento inerziale ad un altro.</p>
+                                   <p>Tutto questo portò Albert Einstein a riaffermare il criterio di relatività, mettendo però in crisi la
+concezione classica dello spazio e del tempo con la teoria della relatività ristretta (1905). D'altro
+canto, gli studi sull'emissione della luce da parte di un corpo incandescente (corpo nero), avevano
+portato Max Planck nel 1900 a ipotizzare che gli atomi eccitati emettessero energia non in modo
+continuo ma per quantità discrete, gettando così le basi della fisica quantistica che, come vedremo,
+costituisce un valido modello interpretativo dei fenomeni su scala atomica e subatomica.</p>
+                                   
+            <div id="feature-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="page-header">Features</h3>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="feature-inner">
+                            <!--/ vintage -->
+                            <div class="portfolio-wrapper">   
+                                <div class="portfolio-single">
+                                    <div class="portfolio-thumb">
+                                        <img src="images/fisica/Albert%20Abraham%20Michelson.jpg" >
+                                    </div>
+                                <div class="portfolio-view">
+                                        <ul class="nav nav-pills">
+                                            <li><a href="images/fisica/220px-Johann-Gottfried-Galle (1).jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                        </ul>
+                                </div>
+                                </div>
+                        
+                            </div><h2>Albert Abraham Michelson</h2><!--/ end vintage -->
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
+                       <div class="feature-inner">
+                               <div class="portfolio-wrapper">   
+                                <div class="portfolio-single">
+                                    <div class="portfolio-thumb">
+                                        <img src="images/fisica/Edward%20Morley.jpg" >
+                                    </div>
+                                <div class="portfolio-view">
+                                        <ul class="nav nav-pills">
+                                            <li><a href="images/fisica/Leverrier (1).jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                        </ul>
+                                </div>
+                                </div>
+                        
+                            </div><h2>Edward Morley</h2>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="900ms">
+                       <div class="feature-inner">
+                           <div class="portfolio-wrapper">   
+                                <div class="portfolio-single">
+                                    <div class="portfolio-thumb">
+                                        <img src="images/fisica/Albert_Einstein.jpg" >
+                                    </div>
+                                <div class="portfolio-view">
+                                        <ul class="nav nav-pills">
+                                            <li><a href="images/fisica/hertz.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                        </ul>
+                                </div>
+                                </div>
+                        
+                            </div><h2>Albert Einstein</h2>
+                            
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="1200ms">
+                       <div class="feature-inner">
+                           <div class="portfolio-wrapper">   
+                                <div class="portfolio-single">
+                                    <div class="portfolio-thumb">
+                                        <img src="images/fisica/Max%20Planck.jpg" >
+                                    </div>
+                                <div class="portfolio-view">
+                                        <ul class="nav nav-pills">
+                                            <li><a href="images/fisica/hertz.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                        </ul>
+                                </div>
+                                </div>
+                        
+                            </div><h2>Max Planck</h2>
+                            
+                        </div>
+                    </div>
+                                        
+                                         
+                                           
+                </div>
+            </div><!--/#feature-container-->
+                                   
+                                   <p>L'ipotesi quantistica di Planck permise inoltre nel 1905 ad Einstein di interpretare un altro
+fenomeno classicamente inspiegabile: l'effetto fotoelettrico.
+Un altro potente impulso all'affermazione della fisica quantistica nella scala microscopica venne
+dalle teorie sulla struttura dell'atomo. Nel 1897, infatti, la scoperta dell'elettrone (J.J. Thomson)
+dimostrò con chiarezza che l'atomo non poteva essere considerato il costituente elementare della
+materia, ma era a sua volta formato da particelle più semplici. La costruzione di un valido modello
+atomico e nucleare confermò l'inadeguatezza, su questa scala, della fisica classica e la necessità di
+interpretare le cose dal punto di vista quantistico.</p>
+                                   <p>La crisi della fisica classica fu la premessa di un tumultuoso sviluppo scientifico. I nuovi modelli
+interpretativi permisero di prevedere nuovi fenomeni ed aprirono la strada al superamento del
+dualismo tra onda e particella. Nella fisica classica esistono i fenomeni corpuscolari ed i fenomeni
+ondulatori con una netta separazione tra essi, nel senso che un singolo fenomeno può essere visto o
+in una chiave oppure nell'altra, senza possibilità di commistione tra esse. Nel mondo microscopico,
+viceversa, la separazione tra i due punti di vista cade: la radiazione può presentare caratteri
+corpuscolari e le particelle mostrare aspetti ondulatori. Il comportamento delle onde di materia deve
+essere descritto da una nuova teoria, la meccanica quantistica (o meccanica ondulatoria) fondata nel
+1925 indipendentemente da Erwin Schrödinger e Werner Heisemberg.</p>
+                                   
+                                   <p>In meno di 30 anni, a partire dal 1900, il panorama della fisica cambiò radicalmente: al posto di un
+unico modello interpretativo, la fisica classica, si avevano due teorie più generali, la fisica
+quantistica e la fisica relativistica, una valida per piccole dimensioni, l'altra per velocità elevate.
+Ciascuna di queste teorie comprende la fisica classica come caso limite, cioè come
+approssimazione del modello per dimensioni grandi o per velocità piccole.
+La saldatura tra fisica quantistica e fisica relativistica avviene nel campo delle piccole dimensioni e
+delle alte velocità; in questo ambito la teoria interpretativa (fisica quantum-relativistica) costituisce
+una delle attuali frontiere della scienza.
+
+</p>
+                                    
+                                  <!-- <div id="container" > </div><!--/container grafico-->
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            
+                      <!--                     
+                    <div class="row">
+                         
+
+                         <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                               
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/1.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/4.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                   
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/5.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/6.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/3.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-6 col-sm-12 blog-padding-right">
+                            <div class="single-blog two-column">
+                                <div class="post-thumb">
+                                    <a href="blogdetails.html"><img src="images/blog/timeline/2.jpg" class="img-responsive" alt=""></a>
+                                    <div class="post-overlay">
+                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
+                                    </div>
+                                </div>
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">Advanced business cards design</a></h2>
+                                    <h3 class="post-author"><a href="#">Posted by micron News</a></h3>
+                                    <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber [...]</p>
+                                    <a href="#" class="read-more">View More</a>
+                                    <div class="post-bottom overflow">
+                                        <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>-->
+                    
+                       
+                    <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="fisica_fotoni.htm">left</a></li>
+                          <li ><a href="fisica_fotoni.htm">1</a></li>
+                          <li class="active"><a href="#">2</a></li>
+                          <li><a href="fisica_fotoni_3.htm">3</a></li>
+                          <li><a href="fisica_fotoni_3.htm">right</a></li>
+                        </ul>
+                    </div>
+                 </div>
+                <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                       		
+                          <div class="scrollingBox">
+                            <div class="sidebar-item categories">
+                            <h3>Argomenti</h3>
+                            <ul class="nav navbar-stacked">
+                                <li ><a href="fisica_fotoni.htm#superamento">Fisica Classica<span class="pull-right"></span></a></li>
+                                <li class="active"><a href="fisica_fotoni_2.htm#maggiormente">Meccanica Newtoniana <span class="pull-right"></span></a></li>
+                                <li class="active"><a href="fisica_fotoni_2.htm#maggiormente">Teoria Maxwelliana<span class="pull-right"></span></a></li>
+                                <li><a href="fisica_fotoni_3.htm#radiazione">Crisi della Fisica Classica<span class="pull-right"></span></a></li>
+                                <li><a href="fisica_fotoni_3.htm#corpo">Corpo Nero<span class="pull-right"></span></a></li>
+                                <li><a href="fisica_fotoni_4.htm#fotoelettrico">L'effetto Fotoelettrico<span class="pull-right"></span></a></li>
+                                <li><a href="fisica_fotoni_4.htm#fotoelettrico">Fotoni<span class="pull-right"></span></a></li>
+                                
+                            </ul>
+                            </div>
+                        </div>
+                            
+                        
+                        
+                        </div>
+                        
+                    </div>
+                </div> 
+            </div>
+            
+       
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 900;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '100px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

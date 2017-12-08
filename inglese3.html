@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+	
+	
+	 <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1>« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin Ėduardovič Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/home/icon1.png" alt=""></a>
+                        </div>
+                        <h2>Fisica</h2>
+                        <p> L'equazione del razzo o Tsiolkovsky, leggi di Keplero e legge di gravitazione universale di Newton </p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="inglese1.html"><img src="images/home/icon4.png" alt=""></a>
+                        </div>
+                        <h2>Inglese</h2>
+                        <p> Il discorso di Kennedy <br> - Kennedy's Famous 'Moon' Speech -</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                    <div class="single-service">
+                        <div class="wow scaleIn" data-wow-duration="1000ms" data-wow-delay="700ms">
+                            <a href="storia.html"><img src="images/home/icon5.1.png" alt=""> </a>
+                        </div>
+                        <h2>Storia</h2>
+                        <p>I viaggi spaziali più importanti nella storia dell'umanità</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+	<body>
+   
+       <section id="page-breadcrumb">
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h2 class="title">Kennedy's Famous 'Moon' Speech</h2>
+                            <p>Il discorso di Kennedy</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+    <!--/#action-->
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-md-9 col-sm-7">
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a href="blogdetails.html">The black civil rights movement</a></h2>
+                                    <h3 class="post-author"><a href="http://elcoushistory.tripod.com/society1960.html">US history</a></h3>
+                                    <p> The decade of the 60’s in America was marked with great social changes. When you think of the 60’s, the hippies and the psychedelic lifestyles, the black civil rights movement, and music such as the British “invasion” come to mind. Integrate all these factors together and it forms the decade of the sixties in terms of society.</p><p>
+ 
+            The black civil rights movement had been an on-going process for about a hundred years, and it finally caught the nation’s attention in the sixties. During the sixties the black civil rights movement picked up its pace from the fifties, which was the root to the critical movement of the sixties. Two events in the fifties helped the movement of the sixties. In 1954 the U.S. Supreme Court ruled that segregated schools were unconstitutional in the case, Brown v. Board of Education. And in 1955 in Montgomery, Alabama, black citizens boycotted city buses to protest against race discrimination in the city’s bus service. Martin Luther King Jr. and Rosa Parks led the boycott. Leaders such as King and Malcolm X became prominent in the sixties. Two types of organizations were present—violent and nonviolent. Several of the nonviolent groups were the Southern Christian Leadership Conference (SCLC), the Student Nonviolent Coordinating Committee (SNCC), the Congress of Racial Equality (CORE), and the National Organization for the Advancement of Colored People (NAACP). Organizations such as the Black Panthers (a counterpart of the KKK), the Nation of Islam, and the Black Nationalist Movement endorsed violence and a separation of the races. These organizations put up strikes, marches, rallies, riots, and violent confrontations, many involving the police.
+</p><p>
+
+
+        Martin Luther King Jr. was the most influential and well-known of the leaders of the black civil rights movement. He was the president of the SCLC. He and his followers organized numerous marches, rallies, and strikes to call attention to the systematic discrimination against minorities. In the 1963, the SCLC launched a major campaign in Birmingham, Alabama, which was its first major success. On August 28, 1963, the March on Washington attracted 200,000 participants. King made his most famous speech on that day. King said, “I have a dream that one day this nation will rise up and live out the true meaning of its creed—we hold these truths to be self-evident, that all men are created equal.” He convinced President Kennedy and later President Johnson to push for legislation to end discrimination and was awarded the Nobel Peace prize in 1964. The</p><p>
+
+Civil Rights Act of 1964 ended segregation in public facilities and racial discrimination in employment and education. King was finally assassinated on April 4, 1968, while organizing a garbage workers strike in Memphis.
+            Malcolm X, formerly Malcolm Little, was an influential leader in the sixties as well. He joined the Nation of Islam whose leader, Elijah Muhammad, preached that the black race was superior to the white, that the white race was inherently evil, and that total separation was the only way to achieve racial equality. Malcolm X initially supported the violent protests, but soon after took on the nonviolent aspects of the civil rights movement. In 1964, disturbed by Elijah Muhammad's accumulation of wealth, Malcolm X left the Nation of Islam and started his own organization, the Organization of Afro-American Unity, which vowed to promote greater harmony among all nationalities and races. On February 22, 1965 three men, former associates, shot him to death as he gave a speech in the Harlem Ballroom.
+ </p><p>
+            The music of the sixties consisted of two movements—folk and rock-and-roll. Music always coincided with political moods. Folk music was the first movement, which the songs were about political idealism. With musicians such as Judy Collins, Joan Baez, Pete Seeger, and Bob Dylan, folk music reached its peak between 1963 and 1965. In 1965, rock-and-roll took America by storm, especially the “British invasion.”
+            
+</p><p>
+
+    The biggest and most influential group from the “British invasion” was the Beatles. Lennon, McCartney, Harrison and Starkey (a.k.a. Ringo Starr) swept America off its feet. They landed at Kennedy Airport in America on February 1964. Then came their famous appearance on the Ed Sullivan Show. From then on, teenagers were so caught up with the Beatles that women (some) would faint during their performances. The Beatles last performance came in 1966 at Candlestick Park in San Francisco. By 1970, the group separated when McCartney officially announced his departure, pursuing a solo career. The Beatles experimented with drugs, which was referenced in their album, Sgt. Peppers Lonely Hearts Club Band. In their psychedelic cartoon, The Yellow Submarine, they referenced many political concerns. As much as the Beatles’ music influenced America, they too were influenced by America, the hippies.
+</p><p>
+ 
+            The birth of the hippies was in the Haight-Ashbury neighborhood of San Francisco. In 1965, LSD spilled out of top-secret government laboratories and onto city streets, which unleashed a wave of psychedelic madness that transformed America overnight. America was suddenly overridden by a drug-induced revolution against traditional American values. Rock bands such as Jefferson Airplane and the Grateful Dead (both from San Francisco) and drug gurus such as Leary and Kesey led this revolution of hippies and drugs.
+            </p><p>
+    Tens of thousands of almost entirely white middle-class teenagers followed Leary and became hippies. They “turned on, tuned in and dropped out.” They became rebels and challenged every traditional social practice, including marriage, child rearing and religion. Men grew long hair and beards, while women wore peasant dresses and love beads. Women used birth-control pills, which allowed them to experiment sexually for the first time in an era before AIDS. With the superfluous availability of marijuana and LSD millions of people were sold to the ideas of the hippies—free love and free thinking. By the late sixties, hippie innovations such as organic health food, environmentalism and a relaxed society were accepted by mainstream American culture.
+</p>
+                                    
+                                   <iframe width="800" height="500" src="https://www.youtube.com/embed/Ilz5ibQ2dtI?autoplay=0&controls=1&showinfo=0&rel=0&modestbranding=0" frameborder="0" allowfullscreen controls=1 frameborder="0" allowfullscreen></iframe><!--/container grafico--><ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    </div>
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        <div class="testimonial">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/home/mlk.png" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <blockquote>I have a dream that one day on the red hills of Georgia, the sons of former slaves and the sons of former slave owners will be able to sit together at the table of brotherhood.</blockquote>
+                                    <h3><a href="#">- Martin Luther King Jr.</a></h3>
+                                </div>
+                            </div>
+                        </div>
+            </div><!--/#testimonial-container-->
+                                </div>
+                            
+                                           
+
+                   
+
+                    
+                 </div>
+                <div class="col-md-3 col-sm-5">
+                    <div class="sidebar blog-sidebar">
+                       		
+                                                <div class="sidebar-item  recent">
+                            <h3>historical background</h3>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese1.html"><img src="images/portfolio/project1.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese1.html"> Situation in USA in 1960 &#38; Who was John F. Kennedy?</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese2.html"><img src="images/portfolio/project2.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese2.html">John F. Kennedy's Moon speech</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="inglese3.html"><img src="images/portfolio/project3.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4><a href="inglese3.html"> The black civil rights movement</a></h4>
+                                    <p>posted on  07 March 2014</p>
+                                </div>
+                            </div>
+                               
+                        </div>
+                        <div class="sidebar-item categories">
+                            <h3>Concetti Matematici</h3>
+                            <ul class="nav navbar-stacked">
+                                <li class="active"><a href="#">Lorem ipsum<span class="pull-right">(1)</span></a></li>
+                                <li ><a href="#">Dolor sit amet<span class="pull-right">(8)</span></a></li>
+                                <li><a href="#">Adipisicing elit<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Sed do<span class="pull-right">(9)</span></a></li>
+                                <li><a href="#">Eiusmod<span class="pull-right">(3)</span></a></li>
+                                <li><a href="#">Mockup<span class="pull-right">(4)</span></a></li>
+                                <li><a href="#">Ut enim ad minim <span class="pull-right">(2)</span></a></li>
+                                <li><a href="#">Veniam, quis nostrud <span class="pull-right">(8)</span></a></li>
+                            </ul>
+                        </div>
+                         
+                           
+                            
+                            
+                        </div>
+                        <div class="sidebar-item popular">
+                            <h3>Vintage Photos</h3>
+                            
+                            <ul class="gallery">
+                               
+                                <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/1.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/2.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/3.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/4.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/5.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/5.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               <li><div class="portfolio-wrapper">   
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="images/eng/icon/6.png" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="images/eng/6.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div></li>
+                               
+                               
+                                
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div> 
+
+                       
+                        <div class="blog-pagination">
+                        <ul class="pagination">
+                          <li><a href="#">left</a></li>
+                          <li ><a href="inglese1.html">1</a></li>
+                          <li><a href="inglese2.html">2</a></li>
+                          <li class="active"><a href="inglese3.html">3</a></li>
+                          
+                          <li><a href="inglese3.html">right</a></li>
+                        </ul>
+                    </div>
+                    
+            
+            
+        </div>
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 1500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '300px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>

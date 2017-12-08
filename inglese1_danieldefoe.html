@@ -1,0 +1,624 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | Esplorazione spaziale</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet"> 
+    <link href="css/lightbox.css" rel="stylesheet"> 
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+
+         
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+ <!-- end link main--> 
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+				<style type="text/css">
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 200px;
+    margin: 0 ;
+}
+</style>
+
+<!-- http://doc.jsfiddle.net/use/hacks.html#css-panel-hack -->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+		</style>
+		<script type="text/javascript">
+/*
+The purpose of this demo is to demonstrate how multiple charts on the same page can be linked
+through DOM and Highcharts events and API methods. It takes a standard Highcharts config with a
+small variation for each data set, and a mouse/touch event handler to bind the charts together.
+*/
+
+$(function () {
+
+    /**
+     * In order to synchronize tooltips and crosshairs, override the
+     * built-in events with handlers defined on the parent element.
+     */
+    $('#container').bind('mousemove touchmove', function (e) {
+        var chart,
+            point,
+            i;
+
+        for (i = 0; i < Highcharts.charts.length; i = i + 1) {
+            chart = Highcharts.charts[i];
+            e = chart.pointer.normalize(e); // Find coordinates within the chart
+            point = chart.series[0].searchPoint(e, true); // Get the hovered point
+
+            if (point) {
+                point.onMouseOver(); // Show the hover marker
+                chart.tooltip.refresh(point); // Show the tooltip
+                chart.xAxis[0].drawCrosshair(e, point); // Show the crosshair
+            }
+        }
+    });
+    /**
+     * Override the reset function, we don't need to hide the tooltips and crosshairs.
+     */
+    Highcharts.Pointer.prototype.reset = function () {
+        return undefined;
+    };
+
+    /**
+     * Synchronize zooming through the setExtremes event handler.
+     */
+    function syncExtremes(e) {
+        var thisChart = this.chart;
+
+        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop
+            Highcharts.each(Highcharts.charts, function (chart) {
+                if (chart !== thisChart) {
+                    if (chart.xAxis[0].setExtremes) { // It is null while updating
+                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });
+                    }
+                }
+            });
+        }
+    }
+
+    // Get the data. The contents of the data file can be viewed at
+    // https://github.com/highcharts/highcharts/blob/master/samples/data/activity.json
+    $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=activity.json&callback=?', function (activity) {
+        $.each(activity.datasets, function (i, dataset) {
+
+            // Add X values
+            dataset.data = Highcharts.map(dataset.data, function (val, j) {
+                return [activity.xData[j], val];
+            });
+
+            $('<div class="chart">')
+                .appendTo('#container')
+                .highcharts({
+                    chart: {
+                        marginLeft: 40, // Keep all charts left aligned
+                        spacingTop: 20,
+                        spacingBottom: 20,
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: dataset.name,
+                        align: 'left',
+                        margin: 0,
+                        x: 30
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        crosshair: true,
+                        events: {
+                            setExtremes: syncExtremes
+                        },
+                        labels: {
+                            format: '{value} km'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        }
+                    },
+                    tooltip: {
+                        positioner: function () {
+                            return {
+                                x: this.chart.chartWidth - this.label.width, // right aligned
+                                y: -1 // align to title
+                            };
+                        },
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        pointFormat: '{point.y}',
+                        headerFormat: '',
+                        shadow: false,
+                        style: {
+                            fontSize: '18px'
+                        },
+                        valueDecimals: dataset.valueDecimals
+                    },
+                    series: [{
+                        data: dataset.data,
+                        name: dataset.name,
+                        type: dataset.type,
+                        color: Highcharts.getOptions().colors[i],
+                        fillOpacity: 0.3,
+                        tooltip: {
+                            valueSuffix: ' ' + dataset.unit
+                        }
+                    }]
+                });
+        });
+    });
+});
+		</script>
+	</head>
+	
+
+<body>
+		<header id="header">      
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 overflow">
+                   <div class="social-icons pull-right">
+                        <ul class="nav nav-pills">
+                            <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                            <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                            <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href=""><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div> 
+                </div>
+             </div>
+        </div>
+        <div class="navbar navbar-inverse" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="index.html">
+                    	<h1><img src="images/logo.png" alt="logo">Tesina</h1>
+                    </a>
+                    
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="dropdown"><a href="fisica_fotoni.htm">Fisica <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="fisica_fotoni.htm#superamento">Superamento della Fisica Classica</a></li>
+                                <li><a href="fisica_fotoni_2.htm#maggiormente">I fondatori della Fisica Quantistica</a></li>
+                                <li><a href="fisica_fotoni_3.htm#radiazione">Radiazione Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_3.htm#grafico">Grafico - Corpo Nero</a></li>
+                                <li><a href="fisica_fotoni_4.htm#planck">Teoria di Planck</a></li>
+                                <li><a href="fisica_fotoni_4.htm#fotoelettrico">L’effetto fotoelettrico</a></li>
+                                
+                            </ul>
+                        </li>                    
+                        <li class="dropdown"><a href="scienze.html">Scienze<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="scienze.html#lujendra">l'enigma dell'acqua su marte</a></li>
+                                <li><a href="scienze.html#dove">L'acqua su Marte da dove arriva</a></li>
+                                <li><a href="scienze.html#proibita">Perche proibita?</a></li>
+                                <li><a href="scienze.html#outer">Trattato sullo spazio extra atmosferico</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="inglese1_danieldefoe.html">Inglese <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="inglese1_danieldefoe.html#vita">Chi è Daniel DeFoe?</a></li>
+                                <li><a href="inglese1_danieldefoe.html#summary">Robinson Cruose</a></li>
+                                <li><a href="inglese1_danieldefoe.html#landing">Robinson's Safe Landing</a></li>
+                                <li><a href="inglese1_danieldefoe.html#jj">Quote from James Joyce</a></li>
+                                <li><a href="inglese1_danieldefoe.html#martian">A modern Robinson Crusoe</a></li>
+                                <li><a href="inglese1_danieldefoe.html#comparison">Comparison Crusoe and The Martian</a></li>
+                            </ul>
+                        </li> 
+                        <li class="dropdown"><a href="storia.html">Storia <i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+                                <li ><a href="storia.html">La corsa allo spazio</a></li>
+                                <li ><a href="storia_2.html#fredda">Il termine “Guerra Fredda”</a></li>
+                                <li ><a href="storia_2.html#inizio">L'inizio della Guerra Fredda</a></li>
+                                <li ><a href="storia_2.html#due">Nascita delle due Germanie</a></li>
+                                <li ><a href="storia_2.html#nato">Creazione della NATO</a></li>
+                                <li ><a href="storia_2.html#ar">Le armi usate</a></li>
+                                <li ><a href="storia_3.html#corsa">La corsa allo spazio</a></li>
+                                <li><a href="storia_3.html#proga">Sviluppo due programmi spaziali</a></li>
+                                <li><a href="storia_3.html#fine">La Fine della Guerra Fredda </a></li>
+                            </ul>
+                        </li>                        
+                        <li><a href="shortcodes.html ">Shortcodes</a></li>                    
+                    </ul>
+                </div>
+                <div class="search">
+                    <form role="form">
+                        <i class="fa fa-search"></i>
+                        <div class="field-toggle">
+                            <input type="text" class="search-form" autocomplete="off" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--/#header-->
+   
+
+    <section id="home-slider">
+        <div class="container">
+            <div class="row">
+                <div class="main-slider">
+                    <div class="slide-text">
+                        <h1 style="letter-spacing: -1px;">« La terra è la culla dell'umanità, ma chi vuole rimanere per sempre nella culla? »</h1>
+                        <p>Konstantin &#203;duardovi&#231; Ciolkovskij</p>
+                        
+                    </div>
+                    <img src="images/home/slider/hill.png" class="slider-hill" alt="slider image">
+                    <img src="images/home/slider/house.png" class="slider-house" alt="slider image">
+                    <img src="images/home/slider/sun.png" class="slider-sun" alt="slider image">
+                    <img src="images/home/slider/birds1.png" class="slider-birds1" alt="slider image">
+                    <img src="images/home/slider/birds2.png" class="slider-birds2" alt="slider image">
+                </div>
+            </div>
+        </div>
+        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </section>
+    <!--/#home-slider-->
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                           <div id="feature-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-header"></h2>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="feature-inner">
+                            
+                                <a href="fisica_fotoni.htm"><img src="images/home/fisica.png" alt=""></a>
+                            
+                            <h2>Fisica</h2>
+                            <p>Dalla crisi della fisica classica fino ai fotoni</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
+                        <div class="feature-inner">
+                            <a href="scienze.html"><img src="images/home/chimica.png" alt=""></a>
+                            <h2>Scienze</h2>
+                            <p>La presenza dell'acqua "proibita" su Marte</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="900ms">
+                        <div class="feature-inner">
+                            <a href="inglese1_danieldefoe.html"><img src="images/home/inglese.png" alt=""></a>
+                            <h2>Inglese</h2>
+                            <p>Robinson Crusoe on Mars?</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="1200ms">
+                        <div class="feature-inner">
+                            <a href="storia.html"><img src="images/home/storia.png" alt=""></a>
+                            <h2>Storia</h2>
+                            <p>L'inizio della corsa allo spazio.</p>
+                        </div>
+                    </div>                        
+                </div>
+            </div><!--/#feature-container-->
+            </div>
+
+        </div>
+    </section>
+   
+
+    <section id="blog" class="padding-top">
+        <div class="container">
+            <div class="row">
+               
+                
+        
+                            
+                                <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="vita">Daniel Defoe</a></h2>
+                                    <h3 class="post-author">Fonte: <a href="http://www.biography.com/people/daniel-defoe-9269678">http://www.biography.com/</a></h3>
+                                    <p>He was born in 1660 in London. He became a merchant and participated in several failing businesses, facing bankruptcy and aggressive creditors. He was also a political pamphleteer which landed him in prison for slander. Late in life he turned his pen to fiction and wrote Robinson Crusoe, one of the most widely read and influential novels of all time. Defoe died in 1731.</p>
+                
+                      <div class="col-sm-3 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/eng/daniel_defoe.jpg" alt=""></a>
+                      </div> 
+                          
+                    <br><h2 class="post-title bold"><a name="summary">Robinson Crusoe</a></h2>
+                                   <h3 class="post-author">short summary</h3>
+                                    <p>
+
+
+Robinson Crusoe was shipwrecked after a severe storm. He was the only survivor, and he immediately began to build a shelter and search for food for survival. He tried to salvage as much as possible from the shipwrecked ship and save things that he thought was useful. He began to write in a journal so that he would be able to remember what happened to him while he was on the island. He learned many useful skills, including fishing and farming. 
+                                    </p><p>After 15 years on the island, Crusoe discovered footprints in the sand but no signs of people. Years later, he spotted cannibals on the island. He spotted them again sometime later and noticed a victim escaping. Crusoe presumed the victim had managed to survive a shipwreck he spotted earlier in the year. Crusoe saved him, named him Friday and taught him how to speak English. </p><p>
+Crusoe and Friday were eventually rescued from the island after they helped the captain of the ship escape a mutiny. Once in England, Crusoe discovered that he was wealthy. He married and had three children, but Crusoe still wanted to continue his adventures. </p>
+
+                                    
+                                   <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    
+                                               <h2 class="post-title bold"><a name="landing">Robinson's Safe Landing on Shore - Life on the Island</a></h2>
+                                    <h3 class="post-author">Part which I did by myself</h3></div>
+                                    <p>This portion of the novel is dedicated to Crusoe's time alone on the island. He builds three main structures: his initial shelter, his country home on the opposite side of the island, and his guns and ammo fort in the woods. He spends his time planting corn, barley, and rice. He learns to make bread. He builds furniture, weaves baskets, and makes pots. Crusoe also raises goats and tends to his little animal family of cats, dogs, and a parrot. Most importantly, though, Crusoe becomes stronger in his religious faith, eventually submitting to the authority of God. He devotes himself to much religious reflection and prayer.
+</p><div class="col-sm-5 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            
+                             
+                <h2 class="page-header">Honorable Mentions</h2>
+               
+                            <img src="images/eng/robinsonCrusoe.jpg" alt="" style="width:450px">
+                            
+                       
+                
+            
+                     
+        </div>
+
+
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        
+                                                    <div class="testimonial">
+                                                        <div class="media">
+                                                                <div class="pull-left">
+                                                                    <a name="jj"><img src="images/home/James_joyce.jpg" alt=""></a>
+                                                                </div>
+                                                            <div class="media-body">
+                                                                    <blockquote>The true symbol of the British conquest, who, cast away on a desert island, in his pocket a knife and a pipe, becomes an architect, a carpenter, a knife grinder, an astronomer … and a clergyman. He is the true prototype of the British colonist, as Friday … is the symbol of the subject races. The whole Anglo-Saxon spirit is in Crusoe: the manly independence; the unconscious cruelty; the persistence; the slow yet efficient intelligence.</blockquote>
+                                                                    <h3><p style="font-size:15px">Apparently in some lectures delivered in Trieste, Italy (1912) Joyce had this to say about DeFoe's Robinson Crusoe and how it reflects the English mindset:</p><a href="http://www.ricorso.net/rx/az-data/authors/j/Joyce_JA/quots/quots2.htm#DDefoe">- James Joyce</a></h3>
+                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!--/#testimonial-container-->
+                                            </div>
+                                        </div>
+                                    </div>
+                </section>
+	                        
+                                   
+    <section id="page-breadcrumb" ><!--/#divisione pagine-->
+        <div class="vertical-center sun">
+             <div class="container">
+                <div class="row">
+                    <div class="action">
+                        <div class="col-sm-12">
+                            <h2 class="title">The Martian: A modern Robinson Crusoe</h2>
+                            <p>directed by <em>Ridley Scott</em>, based on <em>Andy Weir’s</em> novel</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>   
+                                   
+    <section id="blog" class="padding-top" style="padding-top:10px">
+        <div class="container">
+            <div class="row">                           
+                                   
+                                   
+                                   <div class="post-content overflow">
+                                    <h2 class="post-title bold"><a name="martian">The Martian</a></h2>
+                                    <h3 class="post-author">Fonte: <a href="http://www.foxmovies.com/movies/the-martian">http://www.foxmovies.com/</a></h3>
+                                    <p>Matt Damon plays Mark Watney, an astronaut left stranded on Mars. Alone, presumed dead, he must work out a way to survive. This means finding a way to sustain life – his life – on a planet where nothing grows.</p>
+                
+                      <div class="col-sm-6 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            <a href="fisica_conGrafico.htm"><img src="images/eng/the-martian.jpg" alt="" style="width:550px"></a>
+                      </div> 
+                          
+                           <h2 class="post-title bold"><a href="blogdetails.html">short summary</a></h2>
+                                   
+                                    <p>During a manned mission to Mars, Astronaut Mark Watney is presumed dead after a fierce storm and left behind by his crew. But Watney has survived and finds himself stranded and alone on the hostile planet. With only meager supplies, he must draw upon his ingenuity, wit and spirit to subsist and find a way to signal to Earth that he is alive.Being a botanist he manages to cultivate food and survives by scavenging parts of previous missions. Millions of miles away, NASA and a team of international scientists work tirelessly to bring "the Martian" home, while his crewmates concurrently plot a daring, if not impossible, rescue mission. As these stories of incredible bravery unfold, the world comes together to root for Watney's safe return.
+                                    </p>
+                                    
+                                   <ul class="nav nav-justified post-nav">
+                                            <li><a href="#"><i class="fa fa-tag"></i>View More</a></li>
+                                            
+                                        </ul>
+                                    <div class="post-bottom overflow">
+                                        
+                                    
+                                               <h2 class="post-title bold"><a name="comparison">Comparison Robinson Crusoe and The Martian</a></h2>
+                                    
+                                    <p>Robinson Crusoe’s is the classic colonising narrative. His island isn’t utterly uninhabited – cannibals arrive, he shoots some of them, rescues an intended victim and makes him his servant (‘Friday’); teaching him English and converting him to Christianity. In effect, he replicates his society around himself, using the materials of European technology he has available.
+However, no Martians pop up around Mark Watney, to whom he can teach the ‘grace’ of human ways. He is utterly alone in his world.Like Robinson Crusoe, Mark becomes master of his domain thanks to his personal intelligence and capacity to endure; unlike Crusoe, he has access to advanced technology from the outset, as well as some of Earth's best and brightest working to save him.
+</p><div class="col-sm-5 wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">
+                            
+                            <div id="carousel-container">
+                <h2 class="page-header">Honorable Mentions</h2>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators visible-xs">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="images/eng/the_martian1.jpg" alt=""  >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the_martian2.jpg" alt="" >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the-martian3.jpg" alt="" >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the-martian4.jpg" alt="" >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the-martian5.jpg" alt="" >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the-martian6.jpg" alt="" >
+                        </div>
+                        <div class="item">
+                             <img src="images/eng/the-martian7.jpg" alt="" >
+                        </div>
+                        
+                    </div>
+                    <a class="left carousel-control hidden-xs" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control hidden-xs" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div><!--/#carousel-example-generic-->
+                                        </div>
+                      </div> 
+
+
+
+                                                <div id="testimonial-container">
+                
+                        <h2 class="page-header">Testimonial</h2>
+                        
+                        <div class="testimonial">
+                            <div class="media">
+                                <div class="pull-left">
+                                    <a href="#"><img src="images/home/andyWeir.jpg" alt=""></a>
+                                </div>
+                                <div class="media-body">
+                                    <blockquote>If a hiker gets lost in the mountains, people will coordinate a search. If a train crashes, people will line up to give blood. If an earthquake levels a city, people all over the world will send emergency supplies. This is so fundamentally human that it’s found in every culture without exception.</blockquote>
+                                    <h3><a href="https://it.wikipedia.org/wiki/Andy_Weir">- Andy Weir</a></h3>
+                                    
+                                </div>
+                            </div>
+                        </div>
+            </div><!--/#testimonial-container-->
+                                </div>
+
+
+                   
+
+                    
+                 
+            
+                </div> 
+
+                       
+                                                   <div id="feature-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-header"></h2>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                        <div class="feature-inner">
+                            
+                                <a href="fisica_fotoni.htm"><img src="images/home/fisica.png" alt=""></a>
+                            
+                            <h2>Fisica</h2>
+                            <p>Dalla crisi della fisica classica fino ai fotoni</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="600ms">
+                        <div class="feature-inner">
+                            <a href="scienze.html"><img src="images/home/chimica.png" alt=""></a>
+                            <h2>Scienze</h2>
+                            <p>La presenza dell'acqua "proibita" su Marte</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="900ms">
+                        <div class="feature-inner">
+                            <a href="inglese1_danieldefoe.html"><img src="images/home/inglese.png" alt=""></a>
+                            <h2>Inglese</h2>
+                            <p>Robinson Crusoe on Mars?</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 wow fadeInUp" data-wow-duration="500ms" data-wow-delay="1200ms">
+                        <div class="feature-inner">
+                            <a href="storia.html"><img src="images/home/storia.png" alt=""></a>
+                            <h2>Storia</h2>
+                            <p>L'inizio della corsa allo spazio.</p>
+                        </div>
+                    </div>                        
+                </div>
+            </div><!--/#feature-container-->
+                    
+            </div>
+            
+        
+        
+    </section>
+	   
+
+   
+
+
+ 
+     <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center bottom-separator">
+                    <img src="images/home/under.png" class="img-responsive inline" alt="">
+                </div>
+                
+               
+                
+                <div class="col-sm-12">
+                    <div class="copyright-text text-center">
+                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+ <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lightbox.min.js"></script>
+    <script type="text/javascript" src="js/wow.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>  
+    <script type="text/javascript">
+	$(function() {
+
+		// set the offset pixels automatically on how much the sidebar height is.
+		// plus the top margin or header height
+		var offsetPixels = 1500;
+
+		$(window).scroll(function() {
+			if ( $(window).scrollTop() > offsetPixels ) {
+				$('.scrollingBox').css({
+					'position': 'fixed',
+					'top': '300px'
+				});
+			} else {
+				$('.scrollingBox').css({
+					'position': 'static'
+                    
+				});
+			}
+		});
+	});
+</script>
+	</body>
+</html>
